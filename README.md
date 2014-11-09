@@ -1,4 +1,5 @@
 # RunScript
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/runscripts/runscript?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 * [中文文档](README-zh.md)
 * [Drone]()
