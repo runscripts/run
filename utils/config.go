@@ -2,13 +2,17 @@ package utils
 
 import "github.com/kylelemons/go-gypsy/yaml"
 
-const CONFIG_PATH = "/etc/runscripts.yml"
+const (
+	CONFIG_PATH  = "/etc/runscripts.yml"
+	DATA_DIR     = "/var/lib/runscripts"
+)
 
 type Config struct {
-	Sources         []string
-	CacheEnabled    bool
+	Sources       map[string]string
+	CacheEnabled  bool
 }
 
+// Refer <http://sweetohm.net/html/go-yaml-parsers.en.html>
 func NewConfig(path ...string) Config {
 	file, err := yaml.ReadFile(CONFIG_PATH)
 	if len(path) > 0 {
@@ -20,13 +24,11 @@ func NewConfig(path ...string) Config {
 
 	yamlRoot := toYamlMap(file.Root)
 	config := Config{}
-
 	// read "sources"
-	sources := toYamlList(yamlRoot["sources"])
-	length := len(sources)
-	config.Sources = make([]string, length)
-	for i := 0; i < length; i++ {
-		config.Sources[i] = sources[i].(yaml.Scalar).String()
+	sources := toYamlMap(yamlRoot["sources"])
+	config.Sources = make(map[string]string)
+	for scope, url := range sources {
+		config.Sources[scope] = url.(yaml.Scalar).String()
 	}
 	// read "cache-enabled"
 	cacheEnabled := yamlRoot["cache-enabled"].(yaml.Scalar).String()

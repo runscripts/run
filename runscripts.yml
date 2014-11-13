@@ -1,6 +1,5 @@
 sources:
-  - https://github.com/runscripts/scripts.git
+  default: https://raw.githubusercontent.com/runscripts/scripts/master/%s
+  github: https://raw.githubusercontent.com/%s/%s/master/%s
 
 cache-enabled: True
-
-cache-directory: /var/lib/runscripts/cache
