@@ -1,0 +1,6 @@
+sources:
+  - https://github.com/runscripts/scripts.git
+
+cache-enabled: True
+
+cache-directory: /var/lib/runscripts/cache
