@@ -2,8 +2,10 @@ package main
 
 import "./utils"
 
-// Refer psql help format
+const VERSION = "0.0.1"
+
 func help() {
+	// refer to psql help format
 	utils.LogInfo(`
 Usage:
   run [OPTION]... [SCOPE:][FIELD[/FIELD]...]
@@ -16,7 +18,9 @@ Options:
   --clean         clear out all the scripts cached in local
   --version       output version information, then exit
 
-For SCOPE and FIELD, please check the manual of run (man run).
+For SCOPE and FIELD, check the manual of run (man run).
+
+Report bugs to <https://github.com/runscripts/runscripts/issues>.
 	`)
 	utils.LogInfo("\n")
 }
