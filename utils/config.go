@@ -3,8 +3,8 @@ package utils
 import "github.com/kylelemons/go-gypsy/yaml"
 
 const (
-	CONFIG_PATH  = "/etc/runscripts.yml"
-	DATA_DIR     = "/var/lib/runscripts"
+	CONFIG_PATH = "/etc/runscripts.yml"
+	DATA_DIR    = "/var/lib/runscripts"
 )
 
 type Config struct {
@@ -12,9 +12,10 @@ type Config struct {
 	CacheEnabled  bool
 }
 
-// Refer <http://sweetohm.net/html/go-yaml-parsers.en.html>
-func NewConfig(path ...string) Config {
+// Refer to <http://sweetohm.net/html/go-yaml-parsers.en.html>
+func NewConfig(path ...string) *Config {
 	file, err := yaml.ReadFile(CONFIG_PATH)
+	// NewConfig(path) would only be called in testing.
 	if len(path) > 0 {
 		file, err = yaml.ReadFile(path[0])
 	}
@@ -40,7 +41,7 @@ func NewConfig(path ...string) Config {
 		panic(LogError("cache-enabled is neither True nor False"))
 	}
 
-	return config
+	return &config
 }
 
 func toYamlList(node yaml.Node) (yaml.List) {
