@@ -1,8 +1,7 @@
 sources:
   default: https://raw.githubusercontent.com/runscripts/scripts/master/%s
   github:  https://raw.githubusercontent.com/%s/%s/master/%s
-  http:    http:%s
   https:   https:%s
-  ftp:     ftp:%s
+  http:    http:%s
 
 cache-enabled: True
