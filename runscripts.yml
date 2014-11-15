@@ -1,7 +1,6 @@
 sources:
   default: https://raw.githubusercontent.com/runscripts/scripts/master/%s
-  github:  https://raw.githubusercontent.com/%s/%s/master/%s
-  https:   https:%s
-  http:    http:%s
-
-cache-enabled: True
+  github: https://raw.githubusercontent.com/%s/%s/master/%s
+  bitbucket: https://bitbucket.org/%s/%s/raw/master/%s
+  https: https:%s
+  http: http:%s

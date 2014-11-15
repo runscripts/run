@@ -8,7 +8,7 @@ func help() {
 	// refer to psql help format
 	utils.LogInfo(`
 Usage:
-  run [OPTION]... [SCOPE:][FIELD[/FIELD]...]
+  run [OPTION]... [[SCOPE:]FIELD[/FIELD]...]
 
 Options:
   -h, --help      show this help, then exit
