@@ -30,7 +30,8 @@ func Funlock(path string) error {
 func fcntlFlock(lockType int16, path ...string) error {
 	var err error
 	if lockType != syscall.F_UNLCK {
-		lockFile, err = os.OpenFile(path[0], syscall.O_CREAT|syscall.O_WRONLY, 0666)
+		mode := syscall.O_CREAT | syscall.O_WRONLY
+		lockFile, err = os.OpenFile(path[0], mode, 0666)
 		if err != nil {
 			LogError("cannot open the lock file %s\n", path)
 			panic(err)

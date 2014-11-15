@@ -4,21 +4,22 @@ import (
 	"crypto/sha1"
 	"encoding/hex"
 	"fmt"
+	"os"
 )
 
-func LogError(format string, args ...interface{}) error {
+func LogError(format string, args ...interface{}) {
 	if len(args) > 0 {
-		return fmt.Errorf(format, args)
+		fmt.Fprintf(os.Stderr, format, args)
 	} else {
-		return fmt.Errorf(format)
+		fmt.Fprintf(os.Stderr, format)
 	}
 }
 
-func LogInfo(format string, args ... interface{}) (int, error) {
+func LogInfo(format string, args ... interface{}) {
 	if len(args) > 0 {
-		return fmt.Printf(format, args)
+		fmt.Printf(format, args)
 	} else {
-		return fmt.Printf(format)
+		fmt.Printf(format)
 	}
 }
 

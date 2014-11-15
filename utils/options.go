@@ -17,6 +17,7 @@ type Options struct {
 	Fields   []string
 	Args     string
 	URL      string
+	CacheID  string
 }
 
 func NewOptions(config *Config) *Options {
@@ -76,7 +77,7 @@ func NewOptions(config *Config) *Options {
 			fields = opt
 		}
 		// get scope pattern from config
-		pattern, ok := (*config)["sources"][options.Scope]
+		pattern, ok := (*config).Sources[options.Scope]
 		if !ok {
 			panic(LogError(
 				"%s: sources: %s scope didn't exist",
@@ -96,16 +97,20 @@ func NewOptions(config *Config) *Options {
 				CONFIG_PATH, options.Scope,
 			))
 		}
-		// options.Fields and options.URL
+		// options.Fields
 		options.Fields = strings.SplitN(fields, "/", nReplace)
 		for _, f := range(options.Fields) {
 			pattern = strings.Replace(pattern, "%s", f, 1)
 		}
+		// options.URL
 		options.URL = pattern
 		// options.Args
 		if i + 1 < length {
 			options.Args = strings.Join(os.Args[i+1:], " ")
 		}
+		// options.CacheID
+		scriptFileName := fields[strings.LastIndex(fields, "/") + 1:]
+		options.CacheID = scriptFileName + "-" + StrToSha1(fields)
 	}
 
 	return &options

@@ -9,7 +9,7 @@ const (
 
 type Config struct {
 	Sources       map[string]string
-	CacheEnabled  bool
+	// future options can be added here
 }
 
 // Refer to <http://sweetohm.net/html/go-yaml-parsers.en.html>
