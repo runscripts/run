@@ -47,7 +47,7 @@ func NewOptions(config *Config) *Options {
 			options.Help = true
 		case "-i":
 			if i + 1 == length || os.Args[i+1][0] == '-' {
-				panic(LogError("missing interpreter (e.g., bash, python) after -i"))
+				panic(Errorf("missing interpreter (e.g., bash, python) after -i"))
 			} else {
 				options.Intprt = os.Args[i+1]
 				i += 1
@@ -61,7 +61,7 @@ func NewOptions(config *Config) *Options {
 		case "--version":
 			options.Version = true
 		default:
-			panic(LogError("unknown option %s", opt))
+			panic(Errorf("unknown option %s", opt))
 		}
 	}
 
@@ -79,7 +79,7 @@ func NewOptions(config *Config) *Options {
 		// get scope pattern from config
 		pattern, ok := (*config).Sources[options.Scope]
 		if !ok {
-			panic(LogError(
+			panic(Errorf(
 				"%s: sources: %s scope didn't exist",
 				CONFIG_PATH, options.Scope,
 			))
@@ -87,12 +87,12 @@ func NewOptions(config *Config) *Options {
 		// examine whether scope pattern and fields can be matched
 		nReplace := strings.Count(pattern, "%s")
 		if nReplace == 0 {
-			panic(LogError(
+			panic(Errorf(
 				"%s: sources: %s scope didn't contain %%s",
 				CONFIG_PATH, options.Scope,
 			))
 		} else if nReplace > strings.Count(fields, "/") + 1 {
-			panic(LogError(
+			panic(Errorf(
 				"%s: sources: %s scope required more fields",
 				CONFIG_PATH, options.Scope,
 			))

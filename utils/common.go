@@ -15,11 +15,19 @@ func LogError(format string, args ...interface{}) {
 	}
 }
 
-func LogInfo(format string, args ... interface{}) {
+func LogInfo(format string, args ...interface{}) {
 	if len(args) > 0 {
 		fmt.Printf(format, args)
 	} else {
 		fmt.Printf(format)
+	}
+}
+
+func Errorf(format string, args ...interface{}) error {
+	if len(args) > 0 {
+		return fmt.Errorf(format, args)
+	} else {
+		return fmt.Errorf(format)
 	}
 }
 
