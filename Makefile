@@ -12,13 +12,13 @@ test: deps
 	cd utils && go test
 
 install: deps
-	[[ -e /etc/$(CONF_FILE) ]] || cp $(CONF_FILE) /etc/
+	[ -e /etc/$(CONF_FILE) ] || cp $(CONF_FILE) /etc/
 	mkdir -p $(DATA_DIR) && chmod 777 $(DATA_DIR)
 	go build -o $(RUN_BIN) -v run.go
 
 clean:
 	rm -f $(RUN_BIN)
-	rm -fr $(DATA_DIR)
+	rm -rf $(DATA_DIR)
 
 purge: clean
 	rm -f /etc/$(CONF_FILE)
