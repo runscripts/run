@@ -87,7 +87,6 @@ func main() {
 		if options.View {
 			Funlock(lockPath)
 			Exec([]string{"cat", scriptPath})
-			return
 		}
 
 		if options.Intprt == "" {
