@@ -15,7 +15,7 @@ type Options struct {
 	Version  bool
 	Scope    string
 	Fields   []string
-	Args     string
+	Args     []string
 	URL      string
 	CacheID  string
 }
@@ -31,7 +31,7 @@ func NewOptions(config *Config) *Options {
 		Version : false,
 		Scope   : "default",
 		Fields  : nil,
-		Args    : "",
+		Args    : []string{},
 	}
 
 	// parse options
@@ -58,7 +58,7 @@ func NewOptions(config *Config) *Options {
 			options.View = true
 		case "--clean":
 			options.Clean = true
-		case "--version":
+		case "-V", "--version":
 			options.Version = true
 		default:
 			panic(Errorf("unknown option %s", opt))
@@ -106,7 +106,7 @@ func NewOptions(config *Config) *Options {
 		options.URL = pattern
 		// options.Args
 		if i + 1 < length {
-			options.Args = strings.Join(os.Args[i+1:], " ")
+			options.Args = os.Args[i+1:]
 		}
 		// options.CacheID
 		scriptFileName := fields[strings.LastIndex(fields, "/") + 1:]
