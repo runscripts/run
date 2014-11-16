@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 	"os"
-	"strings"
-
 	. "./utils"
 )
 
@@ -64,22 +62,26 @@ func main() {
 		LogError("run: missing target to execute\n")
 		os.Exit(1)
 	} else {
-		// ensure directory for the scope has been created
-		cacheDir := DATA_DIR + "/" + options.Scope
+		// ensure the cache directory has been created
+		cacheID := options.CacheID
+		cacheDir := DATA_DIR + "/" + options.Scope + "/" + cacheID
 		err := os.MkdirAll(cacheDir, 0777)
 		if err != nil {
 			LogError("cannot mkdir %s\n", cacheDir)
 			panic(err)
 		}
 		// lock the script
-		cacheID := options.CacheID
-		hash := cacheID[strings.LastIndex(cacheID, "-") + 1:]
-		lockPath := cacheDir + "/" + hash + ".lock"
+		lockPath := cacheDir + ".lock"
 		Flock(lockPath)
 		// update the script
-		scriptPath := cacheDir + "/" + cacheID
+		scriptPath := cacheDir + "/" + options.Script
 		_, err = os.Stat(scriptPath)
 		if os.IsNotExist(err) || options.Update {
+			err = Fetch(options.URL, scriptPath)
+			if err != nil {
+				LogError("cannot create/update %s\n", scriptPath)
+				panic(err)
+			}
 		}
 
 		if options.View {
@@ -87,6 +89,7 @@ func main() {
 			Exec([]string{"cat", scriptPath})
 			return
 		}
+
 		if options.Intprt == "" {
 			Funlock(lockPath)
 			Exec(append([]string{scriptPath}, options.Args...))

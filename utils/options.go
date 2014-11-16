@@ -18,6 +18,7 @@ type Options struct {
 	Args     []string
 	URL      string
 	CacheID  string
+	Script   string
 }
 
 func NewOptions(config *Config) *Options {
@@ -97,20 +98,19 @@ func NewOptions(config *Config) *Options {
 				CONFIG_PATH, options.Scope,
 			))
 		}
-		// options.Fields
+		// options.Fields and options.URL
 		options.Fields = strings.SplitN(fields, "/", nReplace)
 		for _, f := range(options.Fields) {
 			pattern = strings.Replace(pattern, "%s", f, 1)
 		}
-		// options.URL
 		options.URL = pattern
 		// options.Args
 		if i + 1 < length {
 			options.Args = os.Args[i+1:]
 		}
-		// options.CacheID
-		scriptFileName := fields[strings.LastIndex(fields, "/") + 1:]
-		options.CacheID = scriptFileName + "-" + StrToSha1(fields)
+		// options.Script and options.CacheID
+		options.Script = fields[strings.LastIndex(fields, "/") + 1:]
+		options.CacheID = StrToSha1(fields)
 	}
 
 	return &options

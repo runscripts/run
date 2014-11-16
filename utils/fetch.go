@@ -1,19 +1,20 @@
 package utils
 
 import (
-//	"io/ioutil"
-//	"net/http"
-	"os"
+	"io/ioutil"
+	"net/http"
 )
 
-func Fetch(url string, dir string, name string) error {
-	return nil
-}
-
-func MakeDir(path string) {
-	err := os.MkdirAll(path, 0777)
+func Fetch(url string, path string) error {
+	response, err := http.Get(url)
 	if err != nil {
-		LogError("cannot mkdir %s\n", path)
+		LogError("failed to GET %s\n", url)
 		panic(err)
 	}
+	defer response.Body.Close()
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		panic(err)
+	}
+	return ioutil.WriteFile(path, body, 0777)
 }

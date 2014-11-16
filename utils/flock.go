@@ -33,7 +33,7 @@ func fcntlFlock(lockType int16, path ...string) error {
 		mode := syscall.O_CREAT | syscall.O_WRONLY
 		lockFile, err = os.OpenFile(path[0], mode, 0666)
 		if err != nil {
-			LogError("cannot open the lock file %s\n", path)
+			LogError("cannot open the lock file %s\n", path[0])
 			panic(err)
 		}
 	}
