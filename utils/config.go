@@ -8,7 +8,7 @@ const (
 )
 
 type Config struct {
-	Sources       map[string]string
+	Sources map[string]string
 	// future options can be added here
 }
 
@@ -34,7 +34,7 @@ func NewConfig(path ...string) *Config {
 	return &config
 }
 
-func toYamlList(node yaml.Node) (yaml.List) {
+func toYamlList(node yaml.Node) yaml.List {
 	result, ok := node.(yaml.List)
 	if !ok {
 		panic(Errorf("%v is not of type list", node))
@@ -42,7 +42,7 @@ func toYamlList(node yaml.Node) (yaml.List) {
 	return result
 }
 
-func toYamlMap(node yaml.Node) (yaml.Map) {
+func toYamlMap(node yaml.Node) yaml.Map {
 	result, ok := node.(yaml.Map)
 	if !ok {
 		panic(Errorf("%v is not of type map", node))

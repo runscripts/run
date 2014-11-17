@@ -12,7 +12,7 @@ const VERSION = "0.1.0"
 // Refer to psql help format
 func help() {
 	utils.LogInfo(
-`Usage:
+		`Usage:
   run [OPTION]... [[SCOPE:]FIELD[/FIELD]...]
 
 Options:

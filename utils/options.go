@@ -6,33 +6,33 @@ import (
 )
 
 type Options struct {
-	Program  string
-	Help     bool
-	Intprt   string
-	Update   bool
-	View     bool
-	Clean    bool
-	Version  bool
-	Scope    string
-	Fields   []string
-	Args     []string
-	URL      string
-	CacheID  string
-	Script   string
+	Program string
+	Help    bool
+	Intprt  string
+	Update  bool
+	View    bool
+	Clean   bool
+	Version bool
+	Scope   string
+	Fields  []string
+	Args    []string
+	URL     string
+	CacheID string
+	Script  string
 }
 
 func NewOptions(config *Config) *Options {
 	options := Options{
-		Program : os.Args[0],
-		Help    : false,
-		Intprt  : "",
-		Update  : false,
-		View    : false,
-		Clean   : false,
-		Version : false,
-		Scope   : "default",
-		Fields  : nil,
-		Args    : []string{},
+		Program: os.Args[0],
+		Help:    false,
+		Intprt:  "",
+		Update:  false,
+		View:    false,
+		Clean:   false,
+		Version: false,
+		Scope:   "default",
+		Fields:  nil,
+		Args:    []string{},
 	}
 
 	// parse options
@@ -47,7 +47,7 @@ func NewOptions(config *Config) *Options {
 		case "-h", "--help":
 			options.Help = true
 		case "-i":
-			if i + 1 == length || os.Args[i+1][0] == '-' {
+			if i+1 == length || os.Args[i+1][0] == '-' {
 				panic(Errorf("missing interpreter (e.g., bash, python) after -i"))
 			} else {
 				options.Intprt = os.Args[i+1]
@@ -92,7 +92,7 @@ func NewOptions(config *Config) *Options {
 				"%s: sources: %s scope didn't contain %%s",
 				CONFIG_PATH, options.Scope,
 			))
-		} else if nReplace > strings.Count(fields, "/") + 1 {
+		} else if nReplace > strings.Count(fields, "/")+1 {
 			panic(Errorf(
 				"%s: sources: %s scope required more fields",
 				CONFIG_PATH, options.Scope,
@@ -100,16 +100,16 @@ func NewOptions(config *Config) *Options {
 		}
 		// options.Fields and options.URL
 		options.Fields = strings.SplitN(fields, "/", nReplace)
-		for _, f := range(options.Fields) {
+		for _, f := range options.Fields {
 			pattern = strings.Replace(pattern, "%s", f, 1)
 		}
 		options.URL = pattern
 		// options.Args
-		if i + 1 < length {
+		if i+1 < length {
 			options.Args = os.Args[i+1:]
 		}
 		// options.Script and options.CacheID
-		options.Script = fields[strings.LastIndex(fields, "/") + 1:]
+		options.Script = fields[strings.LastIndex(fields, "/")+1:]
 		options.CacheID = StrToSha1(fields)
 	}
 

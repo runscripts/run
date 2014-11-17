@@ -39,10 +39,10 @@ func fcntlFlock(lockType int16, path ...string) error {
 	}
 
 	lock := syscall.Flock_t{
-		Start  : 0,
-		Len    : 1,
-		Type   : lockType,
-		Whence : int16(os.SEEK_SET),
+		Start:  0,
+		Len:    1,
+		Type:   lockType,
+		Whence: int16(os.SEEK_SET),
 	}
 	err = syscall.FcntlFlock(lockFile.Fd(), syscall.F_SETLK, &lock)
 	return err
