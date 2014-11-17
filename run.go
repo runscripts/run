@@ -3,14 +3,15 @@ package main
 import (
 	"fmt"
 	"os"
-	. "./utils"
+
+	"github.com/runscripts/runscripts/utils"
 )
 
 const VERSION = "0.1.0"
 
 // Refer to psql help format
 func help() {
-	LogInfo(
+	utils.LogInfo(
 `Usage:
   run [OPTION]... [[SCOPE:]FIELD[/FIELD]...]
 
@@ -26,7 +27,7 @@ For SCOPE and FIELD, check the manual of run (man run).
 
 Report bugs to <https://github.com/runscripts/runscripts/issues>.`,
 	)
-	LogInfo("\n")
+	utils.LogInfo("\n")
 }
 
 func main() {
@@ -35,8 +36,8 @@ func main() {
 		return
 	}
 
-	config := NewConfig()
-	options := NewOptions(config)
+	config := utils.NewConfig()
+	options := utils.NewOptions(config)
 
 	if options.Help {
 		help()
@@ -44,57 +45,57 @@ func main() {
 	}
 
 	if options.Version {
-		LogInfo("run %s\n", VERSION)
+		utils.LogInfo("run %s\n", VERSION)
 		return
 	}
 
 	if options.Clean {
-		LogInfo("Do you want to clear out the script cache? [Y/n] ")
+		utils.LogInfo("Do you want to clear out the script cache? [Y/n] ")
 		var answer string
 		fmt.Scanln(&answer)
 		if answer == "Y" || answer == "y" {
-			Exec([]string{"sh", "-c", fmt.Sprintf("rm -rf %s/*", DATA_DIR)})
+			utils.Exec([]string{"sh", "-c", "rm -rf " + utils.DATA_DIR + "/*"})
 		}
 		return
 	}
 
 	if options.Fields == nil {
-		LogError("run: missing target to execute\n")
+		utils.LogError("run: missing target to execute\n")
 		os.Exit(1)
 	} else {
 		// ensure the cache directory has been created
 		cacheID := options.CacheID
-		cacheDir := DATA_DIR + "/" + options.Scope + "/" + cacheID
+		cacheDir := utils.DATA_DIR + "/" + options.Scope + "/" + cacheID
 		err := os.MkdirAll(cacheDir, 0777)
 		if err != nil {
-			LogError("cannot mkdir %s\n", cacheDir)
+			utils.LogError("cannot mkdir %s\n", cacheDir)
 			panic(err)
 		}
 		// lock the script
 		lockPath := cacheDir + ".lock"
-		Flock(lockPath)
+		utils.Flock(lockPath)
 		// update the script
 		scriptPath := cacheDir + "/" + options.Script
 		_, err = os.Stat(scriptPath)
 		if os.IsNotExist(err) || options.Update {
-			err = Fetch(options.URL, scriptPath)
+			err = utils.Fetch(options.URL, scriptPath)
 			if err != nil {
-				LogError("cannot create/update %s\n", scriptPath)
+				utils.LogError("cannot create/update %s\n", scriptPath)
 				panic(err)
 			}
 		}
 
 		if options.View {
-			Funlock(lockPath)
-			Exec([]string{"cat", scriptPath})
+			utils.Funlock(lockPath)
+			utils.Exec([]string{"cat", scriptPath})
 		}
 
 		if options.Intprt == "" {
-			Funlock(lockPath)
-			Exec(append([]string{scriptPath}, options.Args...))
+			utils.Funlock(lockPath)
+			utils.Exec(append([]string{scriptPath}, options.Args...))
 		} else {
-			Funlock(lockPath)
-			Exec(append([]string{options.Intprt, scriptPath}, options.Args...))
+			utils.Funlock(lockPath)
+			utils.Exec(append([]string{options.Intprt, scriptPath}, options.Args...))
 		}
 	}
 }
