@@ -1,0 +1,11 @@
+{
+	"ImportPath": "github.com/runscripts/runscripts",
+	"GoVersion": "go1.1.2",
+	"Deps": [
+		{
+			"ImportPath": "github.com/kylelemons/go-gypsy/yaml",
+			"Comment": "go.weekly.2011-11-02-17-g0ddb27c",
+			"Rev": "0ddb27ce74ade2ca988ec85587d636e10312dfc6"
+		}
+	]
+}
