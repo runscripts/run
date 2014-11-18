@@ -5,7 +5,6 @@ DATA_DIR  = /var/lib/runscripts
 RUN_BIN   = /usr/bin/run
 
 deps:
-	go get github.com/kylelemons/go-gypsy || echo -n
 	go get github.com/kylelemons/go-gypsy/yaml
 
 test: deps
