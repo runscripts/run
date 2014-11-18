@@ -1,6 +1,9 @@
 package utils
 
-import "github.com/kylelemons/go-gypsy/yaml"
+import (
+	"github.com/kylelemons/go-gypsy/yaml"
+	"io/ioutil"
+)
 
 // Default configuration settings.
 const (
@@ -53,4 +56,24 @@ func toYamlMap(node yaml.Node) yaml.Map {
 		panic(Errorf("%v is not of type map", node))
 	}
 	return result
+}
+
+// Write the default runscripts.yml.
+func WriteDefaultConfig() string {
+	content := `sources:
+  default: https://raw.githubusercontent.com/runscripts/scripts/master/%s
+  github: https://raw.githubusercontent.com/%s/%s/master/%s
+  bitbucket: https://bitbucket.org/%s/%s/raw/master/%s
+  gitcafe: https://gitcafe.com/%s/%s/blob/master/%s
+  https: https:%s
+  http: http:%s
+
+  # wiza: https://raw.githubusercontent.com/wizawu/scripts/master/%s`
+
+	err := ioutil.WriteFile(CONFIG_PATH, []byte(content), 0666)
+	if err != nil {
+		panic(err)
+	}
+
+	return content
 }

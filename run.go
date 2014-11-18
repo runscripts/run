@@ -42,6 +42,12 @@ func main() {
 		return
 	}
 
+	// Write default /etc/runscripts.yml if it doesn't exist
+	if utils.IsFileExist(utils.CONFIG_PATH) == false {
+		utils.LogInfo("%s doesn't exist, write default configuration file\n", utils.CONFIG_PATH)
+		utils.WriteDefaultConfig()
+	}
+
 	// Parse configuration and runtime options.
 	config := utils.NewConfig()
 	options := utils.NewOptions(config)
@@ -54,7 +60,7 @@ func main() {
 
 	// If output version information.
 	if options.Version {
-		utils.LogInfo("run %s\n", VERSION)
+		utils.LogInfo("Run version %s\n", VERSION)
 		return
 	}
 

@@ -57,3 +57,12 @@ func Exec(args []string) error {
 	}
 	return syscall.Exec(path, args, env)
 }
+
+// Determine if the file exists
+func IsFileExist(file string) bool {
+	if _, err := os.Stat(file); os.IsNotExist(err) {
+		return false
+	} else {
+		return true
+	}
+}
