@@ -2,17 +2,20 @@ package utils
 
 import "github.com/kylelemons/go-gypsy/yaml"
 
+// Default configuration settings.
 const (
 	CONFIG_PATH = "/etc/runscripts.yml"
 	DATA_DIR    = "/var/lib/runscripts"
 )
 
+// Configuration ojects in the YAML file.
 type Config struct {
 	Sources map[string]string
-	// future options can be added here
+	// Future options can be added here.
 }
 
-// Refer to <http://sweetohm.net/html/go-yaml-parsers.en.html>
+// Read default YAML file to get configuration.
+// Refer to <http://sweetohm.net/html/go-yaml-parsers.en.html> for usage.
 func NewConfig(path ...string) *Config {
 	file, err := yaml.ReadFile(CONFIG_PATH)
 	// NewConfig(path) would be only called in testing.
@@ -20,7 +23,7 @@ func NewConfig(path ...string) *Config {
 		file, err = yaml.ReadFile(path[0])
 	}
 	if err != nil {
-		LogError("failed to parse %s\n", CONFIG_PATH)
+		LogError("Failed to parse configuration file %s\n", CONFIG_PATH)
 		panic(err)
 	}
 
@@ -34,6 +37,7 @@ func NewConfig(path ...string) *Config {
 	return &config
 }
 
+// Get YAML list.
 func toYamlList(node yaml.Node) yaml.List {
 	result, ok := node.(yaml.List)
 	if !ok {
@@ -42,6 +46,7 @@ func toYamlList(node yaml.Node) yaml.List {
 	return result
 }
 
+// Get YAML map.
 func toYamlMap(node yaml.Node) yaml.Map {
 	result, ok := node.(yaml.Map)
 	if !ok {

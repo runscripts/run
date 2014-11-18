@@ -9,6 +9,7 @@ import (
 	"syscall"
 )
 
+// Log error message.
 func LogError(format string, args ...interface{}) {
 	if len(args) > 0 {
 		fmt.Fprintf(os.Stderr, format, args...)
@@ -17,6 +18,7 @@ func LogError(format string, args ...interface{}) {
 	}
 }
 
+// Log info message.
 func LogInfo(format string, args ...interface{}) {
 	if len(args) > 0 {
 		fmt.Printf(format, args...)
@@ -25,6 +27,7 @@ func LogInfo(format string, args ...interface{}) {
 	}
 }
 
+// Log error message.
 func Errorf(format string, args ...interface{}) error {
 	if len(args) > 0 {
 		return fmt.Errorf(format, args...)
@@ -33,11 +36,13 @@ func Errorf(format string, args ...interface{}) error {
 	}
 }
 
+// Convert string into hash string.
 func StrToSha1(str string) string {
 	sum := [20]byte(sha1.Sum([]byte(str)))
 	return hex.EncodeToString(sum[:])
 }
 
+// Execute the command to replace current process.
 func Exec(args []string) error {
 	env := os.Environ()
 	var path string

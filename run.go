@@ -7,48 +7,58 @@ import (
 	"github.com/runscripts/runscripts/utils"
 )
 
+// Current version of runscripts.
 const VERSION = "0.1.0"
 
-// Refer to psql help format
+// Show this help message.
 func help() {
 	utils.LogInfo(
 		`Usage:
-  run [OPTION]... [[SCOPE:]FIELD[/FIELD]...]
+	run [OPTION] [SCOPE:]SCRIPT
 
 Options:
-  -h, --help      show this help, then exit
-  -i INTERPRETER  run the script with INTERPRETER (e.g., bash, python)
-  -u, --update    use the network to update the script before run it
-  -v, --view      output the script content, then exit
-  -V, --version   output version information, then exit
-  --clean         clear out all the scripts cached in local
+	-h, --help      show this help message, then exit
+	-i INTERPRETER  run script with interpreter(e.g., bash, python)
+	-u, --update    force to update the script before run
+	-v, --view      view the content of script, then exit
+	-V, --version   output version information, then exit
+	-c, --clean     clean out all scripts cached in local
 
-For SCOPE and FIELD, check the manual of run (man run).
+Examples:
+	run pt-summary
+	run github:runscripts/scripts/pt-summary
 
 Report bugs to <https://github.com/runscripts/runscripts/issues>.`,
 	)
 	utils.LogInfo("\n")
 }
 
+// Main function of run command.
 func main() {
+
+	// Show help message if no parameter given.
 	if len(os.Args) == 1 {
 		help()
 		return
 	}
 
+	// Parse configuration and runtime options.
 	config := utils.NewConfig()
 	options := utils.NewOptions(config)
 
+	// If print help message.
 	if options.Help {
 		help()
 		return
 	}
 
+	// If output version information.
 	if options.Version {
 		utils.LogInfo("run %s\n", VERSION)
 		return
 	}
 
+	// If clean out scripts.
 	if options.Clean {
 		utils.LogInfo("Do you want to clear out the script cache? [Y/n] ")
 		var answer string
@@ -59,43 +69,48 @@ func main() {
 		return
 	}
 
+	// If not script given.
 	if options.Fields == nil {
-		utils.LogError("run: missing target to execute\n")
-		os.Exit(1)
-	} else {
-		// ensure the cache directory has been created
-		cacheID := options.CacheID
-		cacheDir := utils.DATA_DIR + "/" + options.Scope + "/" + cacheID
-		err := os.MkdirAll(cacheDir, 0777)
+		utils.LogError("Missing script to run\n")
+		return
+	}
+
+	// Ensure the cache directory has been created.
+	cacheID := options.CacheID
+	cacheDir := utils.DATA_DIR + "/" + options.Scope + "/" + cacheID
+	err := os.MkdirAll(cacheDir, 0777)
+	if err != nil {
+		utils.LogError("Can't mkdir %s\n", cacheDir)
+		panic(err)
+	}
+
+	// Lock the script.
+	lockPath := cacheDir + ".lock"
+	utils.Flock(lockPath)
+
+	// Download the script.
+	scriptPath := cacheDir + "/" + options.Script
+	_, err = os.Stat(scriptPath)
+	if os.IsNotExist(err) || options.Update {
+		err = utils.Fetch(options.URL, scriptPath)
 		if err != nil {
-			utils.LogError("cannot mkdir %s\n", cacheDir)
+			utils.LogError("Can't download/update %s\n", scriptPath)
 			panic(err)
 		}
-		// lock the script
-		lockPath := cacheDir + ".lock"
-		utils.Flock(lockPath)
-		// update the script
-		scriptPath := cacheDir + "/" + options.Script
-		_, err = os.Stat(scriptPath)
-		if os.IsNotExist(err) || options.Update {
-			err = utils.Fetch(options.URL, scriptPath)
-			if err != nil {
-				utils.LogError("cannot create/update %s\n", scriptPath)
-				panic(err)
-			}
-		}
-
-		if options.View {
-			utils.Funlock(lockPath)
-			utils.Exec([]string{"cat", scriptPath})
-		}
-
-		if options.Intprt == "" {
-			utils.Funlock(lockPath)
-			utils.Exec(append([]string{scriptPath}, options.Args...))
-		} else {
-			utils.Funlock(lockPath)
-			utils.Exec(append([]string{options.Intprt, scriptPath}, options.Args...))
-		}
 	}
+
+	// If view the script.
+	if options.View {
+		utils.Funlock(lockPath)
+		utils.Exec([]string{"cat", scriptPath})
+	}
+
+	// Run the script.
+	utils.Funlock(lockPath)
+	if options.Interpreter == "" {
+		utils.Exec(append([]string{scriptPath}, options.Args...))
+	} else {
+		utils.Exec(append([]string{options.Interpreter, scriptPath}, options.Args...))
+	}
+
 }
