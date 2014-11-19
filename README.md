@@ -1,43 +1,56 @@
-# RunScript
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/runscripts/runscript?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# RunScripts
 
-* [中文文档](README-zh.md)
-* [Drone]()
-* [Gitter]()
-
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/runscripts/runscripts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
 
 ## Introducatoin
 
-[RunScript](http://runscript.org) is awaited manager for scripts, just like [brew](https://github.com/Homebrew/homebrew) and [bower](https://github.com/bower/bower). It does two things for you. :sparkles: The first is forcing you to manage scripts with version control tools and :sparkles: the second is to make resue of scripts much easier.
+[RunScripts](https://github.com/runscripts/runscripts) is awaited manager for scripts, just like [homebrew](https://github.com/Homebrew/homebrew) and [bower](https://github.com/bower/bower).
 
-Here is the typical scenario. If we want to use [pt-summary](http://www.percona.com/get/pt-summary), we should find out where it's, download it and run the script locally. But runscript does the same thing for you with command `run pt-summary`. Futhermore, anyone can share and re-use scripts just like `run tobegit3hub/start_seagull`.
+It does two things for you. :sparkles: The first is forcing you to manage scripts with version control tools and :sparkles: the second is to make resue of scripts much easier.
 
-## Usage
+## Install
 
-Runscript is implemented in go and you can install it with `go get github.com/runscripts/runscript`. Here're compiled packages for supported operation systems.
+### From Scratch
+
+* Download the source code and execute `make install`
+
+### Download Binary
 
 | Operation System |     Package     |
 |------------------|-----------------|
-| Linux(x64)       |    [runscript-1.0.0]()    |
-| Linux(x86)       |    [runscript-1.0.0]()    |
-| Mac OS(Not yet)  |                 |
-| Windows(Not yet) |                 |
+| Linux(amd64)     | [run](https://raw.githubusercontent.com/runscripts/runscripts/master/build/linux_amd64/run) |
+| Linux(386)       | [run](https://raw.githubusercontent.com/runscripts/runscripts/master/build/linux_386/run) |
+| Mac OS(amd64)    | [run](https://raw.githubusercontent.com/runscripts/runscripts/master/build/darwin_amd64/run) |
+| Mac OS(386)      | [run](https://raw.githubusercontent.com/runscripts/runscripts/master/build/darwin_386/run) |
 
-After installing runscript, you may get the command `run`. Try `run test_network` to run your first script.
+FreeBSD and ARM are well supported as well. Please checkout out [build](https://github.com/runscripts/runscripts/tree/master/build).
 
-If your Github username is *tobegit3hub*, create the repository named *script* and push your scripts right now. Then you can easily run your scrips like `run tobegit3hub/start_seagull`.
+## Usage
 
-## How It Wors
+We have simpified the usage of run. Please `run -h` for more usage.
 
-All the processes of runscript are transparent and easy to understand.
+```
+Usage:
+        run [OPTION] [SCOPE:]SCRIPT
 
-When you execute the command `run`, runscript will find out if the script is in local machine. If it doesn't exist locally, runscript will download it from git server with `git clone`. That's why you should use version control tools to manage all your scripts before running them.
+Options:
+        -h, --help      show this help message, then exit
+        -i INTERPRETER  run script with interpreter(e.g., bash, python)
+        -u, --update    force to update the script before run
+        -v, --view      view the content of script, then exit
+        -V, --version   output version information, then exit
+        -c, --clean     clean out all scripts cached in local
 
-By default, runscript will find out the scipts from the repositories named *script* in github.com. We're planing to support private git hosting servers later.
+Examples:
+        run pt-summary
+        run github:runscripts/scripts/pt-summary
 
+Report bugs to <https://github.com/runscripts/runscripts/issues>.
+```
 
-## More Scripts
+## Scripts
 
-* [Official scripts](https://github.com/runscripts/script)
-* [Tobegit3hub/script](https://github.com/tobegit3hub/script)
+We have provided [official scripts](https://github.com/runscripts/script) and everyone can easily `run pt-summary` and `run -i python get-pip.py`.
+
+Feel free to manager your scripts in Github and use `run` for convenience.
 
