@@ -9,6 +9,7 @@ import (
 type Options struct {
 	Program     string
 	Help        bool
+	Init        bool
 	Interpreter string
 	Update      bool
 	View        bool
@@ -27,6 +28,7 @@ func NewOptions(config *Config) *Options {
 	options := Options{
 		Program:     os.Args[0],
 		Help:        false,
+		Init:        false,
 		Interpreter: "",
 		Update:      false,
 		View:        false,
@@ -48,6 +50,8 @@ func NewOptions(config *Config) *Options {
 		switch opt {
 		case "-h", "--help":
 			options.Help = true
+		case "-I", "--init":
+			options.Init = true
 		case "-i":
 			if i+1 == length || os.Args[i+1][0] == '-' {
 				panic(Errorf("Missing interpreter (e.g., bash, python) after -i"))

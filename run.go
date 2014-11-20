@@ -18,6 +18,7 @@ func help() {
 
 Options:
 	-h, --help      show this help message, then exit
+	-I, --init      init the directories to install run
 	-i INTERPRETER  run script with interpreter(e.g., bash, python)
 	-u, --update    force to update the script before run
 	-v, --view      view the content of script, then exit
@@ -33,19 +34,13 @@ Report bugs to <https://github.com/runscripts/runscripts/issues>.`,
 	utils.LogInfo("\n")
 }
 
-// Main function of run command.
+// Main function of the command run.
 func main() {
 
 	// Show help message if no parameter given.
 	if len(os.Args) == 1 {
 		help()
 		return
-	}
-
-	// Write default /etc/runscripts.yml if it doesn't exist
-	if utils.IsFileExist(utils.CONFIG_PATH) == false {
-		utils.LogInfo("%s doesn't exist, write default configuration file\n", utils.CONFIG_PATH)
-		utils.WriteDefaultConfig()
 	}
 
 	// Parse configuration and runtime options.
@@ -55,6 +50,35 @@ func main() {
 	// If print help message.
 	if options.Help {
 		help()
+		return
+	}
+
+	// If init runscripts.
+	if options.Init {
+		if utils.IsRunInstalled() {
+			utils.LogInfo("Run is already installed. No need to init again.")
+		} else {
+			err := utils.Fetch(utils.RUNSCRIPTS_YML_URL, utils.CONFIG_PATH)
+			if err != nil {
+				utils.LogError("Can't download from %s\n", utils.RUNSCRIPTS_YML_URL)
+				panic(err)
+			}
+
+			err = os.MkdirAll(utils.DATA_DIR, 0777)
+			if err != nil {
+				utils.LogError("Error MkdirAll  %s", utils.DATA_DIR)
+				panic(err) // TODO: prompt "sudo"
+			}
+
+			utils.Exec([]string{"sh", "-c", "cp ./run " + utils.RUN_PATH})
+		}
+
+		return
+	}
+
+	// If run is not installed, prompt "sudo ./run --init".
+	if utils.IsRunInstalled() {
+		utils.LogInfo("Run is not installed yet. Please \"sudo ./run --init\".\n")
 		return
 	}
 
