@@ -1,0 +1,18 @@
+image: go1.3
+
+git:
+  path: github.com/runscripts/runscripts
+  
+env:
+ - GOROOT=/usr/local/go
+ - PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+ 
+script:
+ - go get
+ - go build
+ - go test -v
+ - go get github.com/runscripts/runscripts/utils
+ - cd utils
+ - go build
+ - go test -v
+ 
