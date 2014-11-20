@@ -1,9 +1,9 @@
 package main
 
 import (
-       "testing"
+	"testing"
 )
 
 func TestGetControllerInfo(t *testing.T) {
-     
+
 }
