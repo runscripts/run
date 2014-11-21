@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"syscall"
 
 	"github.com/runscripts/runscripts/utils"
 )
@@ -37,6 +38,39 @@ Report bugs to <https://github.com/runscripts/runscripts/issues>.`,
 // Main function of the command run.
 func main() {
 
+	// If init runscripts.
+	for _, argument := range os.Args {
+		if argument == "-I" || argument == "--init" {
+			if utils.IsRunInstalled() {
+				utils.LogInfo("Run is already installed. No need to init again.")
+			} else {
+				// Download and put it in /etc/runscripts.yml
+				err := utils.Fetch(utils.RUNSCRIPTS_YML_URL, utils.CONFIG_PATH)
+				if err != nil {
+					utils.LogError("Can't download from %s\n", utils.RUNSCRIPTS_YML_URL)
+					panic(err)
+				}
+				// Mkdir /var/lib/runscripts/
+				mask := syscall.Umask(0)                       // Refer to http://studygolang.com/topics/33
+				err = os.MkdirAll(utils.DATA_DIR, os.ModePerm) // 0777
+				if err != nil {
+					utils.LogError("Error MkdirAll  %s", utils.DATA_DIR)
+					panic(err) // TODO: prompt "sudo"
+				}
+				defer syscall.Umask(mask)
+				// Cp run to /usr/bin/run
+				utils.Exec([]string{"sh", "-c", "cp ./run " + utils.RUN_PATH})
+			}
+			return
+		}
+	}
+
+	// If run is not installed, prompt "sudo ./run --init".
+	if utils.IsRunInstalled() == false {
+		utils.LogInfo("Run is not installed yet. Please \"sudo ./run --init\".\n")
+		return
+	}
+
 	// Show help message if no parameter given.
 	if len(os.Args) == 1 {
 		help()
@@ -50,35 +84,6 @@ func main() {
 	// If print help message.
 	if options.Help {
 		help()
-		return
-	}
-
-	// If init runscripts.
-	if options.Init {
-		if utils.IsRunInstalled() {
-			utils.LogInfo("Run is already installed. No need to init again.")
-		} else {
-			err := utils.Fetch(utils.RUNSCRIPTS_YML_URL, utils.CONFIG_PATH)
-			if err != nil {
-				utils.LogError("Can't download from %s\n", utils.RUNSCRIPTS_YML_URL)
-				panic(err)
-			}
-
-			err = os.MkdirAll(utils.DATA_DIR, 0777)
-			if err != nil {
-				utils.LogError("Error MkdirAll  %s", utils.DATA_DIR)
-				panic(err) // TODO: prompt "sudo"
-			}
-
-			utils.Exec([]string{"sh", "-c", "cp ./run " + utils.RUN_PATH})
-		}
-
-		return
-	}
-
-	// If run is not installed, prompt "sudo ./run --init".
-	if utils.IsRunInstalled() {
-		utils.LogInfo("Run is not installed yet. Please \"sudo ./run --init\".\n")
 		return
 	}
 
