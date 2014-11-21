@@ -1,33 +1,33 @@
 # RunScripts
 
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/runscripts/runscripts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
+[![TravisCI status](https://secure.travis-ci.org/runscripts/runscripts.png)](http://travis-ci.org/runscripts/runscripts) [![GoDoc](https://godoc.org/github.com/runscripts/runscripts?status.svg)](https://godoc.org/github.com/runscripts/runscripts) [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/runscripts/runscripts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Introducatoin
 
 [RunScripts](https://github.com/runscripts/runscripts) is awaited manager for scripts, just like [homebrew](https://github.com/Homebrew/homebrew) and [bower](https://github.com/bower/bower).
 
-It does two things for you. :sparkles: The first is forcing you to manage scripts with version control tools and :sparkles: the second is to make resue of scripts much easier.
+It helps to manager your scripts and make resue of scripts much easier. After installing runscripts, you get the command `run`. Just `run pt-summary` and it will download the well-known pt-summary to run. If you push your scritps in Github, you can simply use it like `run github:runscripts/scripts/pt-summary`.
+
 
 ## Install
 
-### From Scratch
+* From Scratch(Go 1.3+)
 
-* Download the source code and execute `make install`
+Download the source code and execute `sudo GOPATH=$GOPATH make install`
 
-### Download Binary
+* For Linux Users
 
-| Operation System |     Package     |
-|------------------|-----------------|
-| Linux(amd64)     | [run](https://raw.githubusercontent.com/runscripts/runscripts/master/build/linux_amd64/run) |
-| Linux(386)       | [run](https://raw.githubusercontent.com/runscripts/runscripts/master/build/linux_386/run) |
-| Mac OS(amd64)    | [run](https://raw.githubusercontent.com/runscripts/runscripts/master/build/darwin_amd64/run) |
-| Mac OS(386)      | [run](https://raw.githubusercontent.com/runscripts/runscripts/master/build/darwin_386/run) |
+`wget https://raw.githubusercontent.com/runscripts/runscripts/master/packages/linux_amd64/run && chmod +x run && sudo ./run --init`.
 
-FreeBSD and ARM are well supported as well. Please checkout out [build](https://github.com/runscripts/runscripts/tree/master/build).
+* For MacOS Users
+
+`wget https://raw.githubusercontent.com/runscripts/runscripts/master/packages/darwin_amd64/run && chmod +x run && sudo ./run --init`.
+
+* ARM, FreeBSD and Others
+
+All platforms(except Windows) are well supported. Please checkout out [packages](https://github.com/runscripts/runscripts/tree/master/packages) to download.
 
 ## Usage
-
-We have simpified the usage of run. Please `run -h` for more usage.
 
 ```
 Usage:
@@ -48,9 +48,10 @@ Examples:
 Report bugs to <https://github.com/runscripts/runscripts/issues>.
 ```
 
+
 ## Scripts
 
 We have provided [official scripts](https://github.com/runscripts/script) and everyone can easily `run pt-summary` and `run -i python get-pip.py`.
 
-Feel free to manager your scripts in Github and use `run` for convenience.
+Feel free to manager your scripts in Github and send pull-request to official scripts.
 
