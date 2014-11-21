@@ -13,19 +13,27 @@ It helps to manager your scripts and make resue of scripts much easier. After in
 
 * From Scratch(Go 1.3+)
 
-Download the source code and execute `sudo GOPATH=$GOPATH make install`
+```
+Download the source code and execute "sudo GOPATH=$GOPATH make install".
+```
 
 * For Linux Users
 
-`wget https://raw.githubusercontent.com/runscripts/runscripts/master/packages/linux_amd64/run && chmod +x run && sudo ./run --init`.
+```
+wget https://raw.githubusercontent.com/runscripts/runscripts/master/packages/linux_amd64/run && chmod +x run && sudo ./run --init
+```
 
 * For MacOS Users
 
-`wget https://raw.githubusercontent.com/runscripts/runscripts/master/packages/darwin_amd64/run && chmod +x run && sudo ./run --init`.
+```
+wget https://raw.githubusercontent.com/runscripts/runscripts/master/packages/darwin_amd64/run && chmod +x run && sudo ./run --init
+```
 
 * ARM, FreeBSD and Others
 
-All platforms(except Windows) are well supported. Please checkout out [packages](https://github.com/runscripts/runscripts/tree/master/packages) to download.
+```
+Most platforms are well supported. Please download binary in packages.
+```
 
 ## Usage
 
@@ -48,10 +56,9 @@ Examples:
 Report bugs to <https://github.com/runscripts/runscripts/issues>.
 ```
 
-
 ## Scripts
 
 We have provided [official scripts](https://github.com/runscripts/script) and everyone can easily `run pt-summary` and `run -i python get-pip.py`.
 
-Feel free to manager your scripts in Github and send pull-request to official scripts.
+Feel free to manage your scripts in Github and send pull-request to official scripts.
 
