@@ -1,4 +1,4 @@
-.PHONY: deps test install clean purge
+.PHONY: deps test install clean purge packages
 
 CONF_FILE = runscripts.yml
 DATA_DIR  = /var/lib/runscripts
@@ -21,3 +21,12 @@ clean:
 
 purge: clean
 	rm -f /etc/$(CONF_FILE)
+
+packages:
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -o packages/linux_amd64/run run.go
+	CGO_ENABLED=0 GOOS=linux GOARCH=386 go build -v -o packages/linux_386/run run.go
+	CGO_ENABLED=0 GOOS=linux GOARCH=arm go build -v -o packages/linux_arm/run run.go
+	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -o packages/darwin_amd64/run run.go
+	CGO_ENABLED=0 GOOS=darwin GOARCH=386 go build -v -o packages/darwin_386/run run.go
+	CGO_ENABLED=0 GOOS=freebsd GOARCH=amd64 go build -v -o packages/freebsd_amd64/run run.go
+	CGO_ENABLED=0 GOOS=freebsd GOARCH=386 go build -v -o packages/freebsd_386/run run.go
