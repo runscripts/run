@@ -6,8 +6,7 @@
 
 [RunScripts](https://github.com/runscripts/runscripts) is awaited manager for scripts, just like [homebrew](https://github.com/Homebrew/homebrew) and [bower](https://github.com/bower/bower).
 
-It helps to manager your scripts and make resue of scripts much easier. After installing runscripts, you get the command `run`. Just `run pt-summary` and it will download the well-known pt-summary to run. If you push your scritps in Github, you can simply use it like `run github:runscripts/scripts/pt-summary`.
-
+It helps to manager your scripts and make resue of scripts much easier. After installing runscripts, you get the command `run`. Please `run pt-summary` and it will download the well-known pt-summary to run. If you push your scritps in Github, you can simply use it like `run github:runscripts/scripts/pt-summary`.
 
 ## Install
 
@@ -32,7 +31,7 @@ wget https://raw.githubusercontent.com/runscripts/runscripts/master/packages/dar
 * ARM, FreeBSD and Others
 
 ```
-Most platforms are well supported. Please download binary in packages.
+Most platforms are well supported. Please download the binary in packages.
 ```
 
 ## Usage
@@ -43,6 +42,7 @@ Usage:
 
 Options:
         -h, --help      show this help message, then exit
+	-I, --init      init the directories to install run
         -i INTERPRETER  run script with interpreter(e.g., bash, python)
         -u, --update    force to update the script before run
         -v, --view      view the content of script, then exit
@@ -55,6 +55,8 @@ Examples:
 
 Report bugs to <https://github.com/runscripts/runscripts/issues>.
 ```
+
+Watch the [one-minute video](https://www.youtube.com/watch?v=WXUcJvrZP6M) before you're usning it.
 
 ## Scripts
 
