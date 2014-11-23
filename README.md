@@ -36,6 +36,8 @@ Most platforms are well supported. Please download the binary in packages.
 
 ## Usage
 
+:point_right: Watch the [one-minute video](https://www.youtube.com/watch?v=WXUcJvrZP6M) before you're using it.
+
 ```
 Usage:
         run [OPTION] [SCOPE:]SCRIPT
@@ -55,8 +57,6 @@ Examples:
 
 Report bugs to <https://github.com/runscripts/runscripts/issues>.
 ```
-
-Watch the [one-minute video](https://www.youtube.com/watch?v=WXUcJvrZP6M) before you're usning it.
 
 ## Scripts
 
