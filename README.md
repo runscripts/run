@@ -19,13 +19,13 @@ Download the source code and execute "sudo GOPATH=$GOPATH make install".
 * For Linux Users
 
 ```
-wget https://raw.githubusercontent.com/runscripts/runscripts/master/packages/linux_amd64/run && chmod +x run && sudo ./run --init
+wget https://raw.githubusercontent.com/runscripts/run/master/packages/linux_amd64/run && chmod +x run && sudo ./run --init
 ```
 
 * For MacOS Users
 
 ```
-wget https://raw.githubusercontent.com/runscripts/runscripts/master/packages/darwin_amd64/run && chmod +x run && sudo ./run --init
+wget https://raw.githubusercontent.com/runscripts/run/master/packages/darwin_amd64/run && chmod +x run && sudo ./run --init
 ```
 
 * ARM, FreeBSD and Others
