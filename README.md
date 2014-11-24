@@ -6,7 +6,7 @@
 
 [RunScripts](https://github.com/runscripts/runscripts) is awaited manager for scripts, just like [homebrew](https://github.com/Homebrew/homebrew) and [bower](https://github.com/bower/bower).
 
-It helps to manager your scripts and make resue of scripts much easier. After installing runscripts, you get the command `run`. Please `run pt-summary` and it will download the well-known pt-summary to run. If you push your scritps in Github, you can simply use it like `run github:runscripts/scripts/pt-summary`.
+It helps to manage your scripts and make reuse of scripts much easier. After installing runscripts, you get the command `run`. Please `run pt-summary` and it will download the well-known pt-summary to run. If you push your scritps in GitHub, you can simply use it like `run github:runscripts/scripts/pt-summary`.
 
 ## Install
 
@@ -44,8 +44,8 @@ Usage:
 
 Options:
         -h, --help      show this help message, then exit
-	-I, --init      init the directories to install run
         -i INTERPRETER  run script with interpreter(e.g., bash, python)
+        -I, --init      init the directories to install run
         -u, --update    force to update the script before run
         -v, --view      view the content of script, then exit
         -V, --version   output version information, then exit
