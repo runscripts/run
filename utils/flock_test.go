@@ -15,12 +15,12 @@ func TestFlock(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	cmd0 := exec.Command("go", "run", "../flock_proc.go", "0")
+	cmd0 := exec.Command("go", "run", "../test/flock_proc.go", "0")
 	err = cmd0.Start()
 	if err != nil {
 		t.Fatal(err)
 	}
-	cmd1 := exec.Command("go", "run", "../flock_proc.go", "1")
+	cmd1 := exec.Command("go", "run", "../test/flock_proc.go", "1")
 	err = cmd1.Start()
 	if err != nil {
 		t.Fatal(err)
@@ -31,7 +31,6 @@ func TestFlock(t *testing.T) {
 	}
 	err = cmd0.Wait()
 	if err != nil {
-		// TODO: fix it
-		// t.Fatal(err)
+		t.Fatal(err)
 	}
 }

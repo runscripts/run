@@ -5,10 +5,10 @@ import (
 	"os"
 	"syscall"
 
-	"github.com/runscripts/runscripts/utils"
+	"github.com/runscripts/run/utils"
 )
 
-// Current version of runscripts.
+// Current version of run.
 const VERSION = "0.1.0"
 
 // Show this help message.
@@ -18,19 +18,19 @@ func help() {
 	run [OPTION] [SCOPE:]SCRIPT
 
 Options:
+	-c, --clean     clean out all scripts cached in local
 	-h, --help      show this help message, then exit
-	-I, --init      init the directories to install run
 	-i INTERPRETER  run script with interpreter(e.g., bash, python)
+	-I, --init      init the directories to install run
 	-u, --update    force to update the script before run
 	-v, --view      view the content of script, then exit
 	-V, --version   output version information, then exit
-	-c, --clean     clean out all scripts cached in local
 
 Examples:
 	run pt-summary
 	run github:runscripts/scripts/pt-summary
 
-Report bugs to <https://github.com/runscripts/runscripts/issues>.`,
+Report bugs to <https://github.com/runscripts/run/issues>.`,
 	)
 	utils.LogInfo("\n")
 }
@@ -38,16 +38,16 @@ Report bugs to <https://github.com/runscripts/runscripts/issues>.`,
 // Main function of the command run.
 func main() {
 
-	// If init runscripts.
+	// If init run.
 	for _, argument := range os.Args {
 		if argument == "-I" || argument == "--init" {
 			if utils.IsRunInstalled() {
 				utils.LogInfo("Run is already installed. No need to init again.")
 			} else {
 				// Download and put it in /etc/runscripts.yml
-				err := utils.Fetch(utils.RUNSCRIPTS_YML_URL, utils.CONFIG_PATH)
+				err := utils.Fetch(utils.RUN_YML_URL, utils.CONFIG_PATH)
 				if err != nil {
-					utils.LogError("Can't download from %s\n", utils.RUNSCRIPTS_YML_URL)
+					utils.LogError("Can't download from %s\n", utils.RUN_YML_URL)
 					panic(err)
 				}
 				// Mkdir /var/lib/runscripts/

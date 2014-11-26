@@ -4,7 +4,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/runscripts/runscripts/utils"
+	"github.com/runscripts/run/utils"
 )
 
 // This program is run by flock_test.go to verify the lock effect.

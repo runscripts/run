@@ -6,11 +6,11 @@ import (
 
 // Default configuration settings.
 const (
-	CONFIG_PATH = "/etc/runscripts.yml"
-	DATA_DIR    = "/var/lib/runscripts"
+	CONFIG_PATH = "/etc/run.yml"
+	DATA_DIR    = "/usr/local/run"
 	RUN_PATH    = "/usr/bin/run"
 
-	RUNSCRIPTS_YML_URL = "https://raw.githubusercontent.com/runscripts/runscripts/master/runscripts.yml"
+	RUN_YML_URL = "https://raw.githubusercontent.com/runscripts/run/master/run.yml"
 )
 
 // Configuration ojects in the YAML file.
