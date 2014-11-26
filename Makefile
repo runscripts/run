@@ -1,6 +1,6 @@
 .PHONY: deps test install clean purge reinstall packages
 
-ifeq (`uname`,'Darwin`)
+ifeq (`uname`,'Darwin')
 RUN_CONF=/usr/local/etc/run.yml
 RUN_BIN=/usr/local/bin/run
 else
@@ -15,7 +15,7 @@ MAIN=run.go
 
 PACKAGES=linux_amd64 linux_386 linux_arm \
 		 darwin_amd64 darwin_386 \
-		 freebsd_amd64 freebsd_386 \
+		 freebsd_amd64 freebsd_386
 
 deps:
 	go get github.com/kylelemons/go-gypsy/yaml
