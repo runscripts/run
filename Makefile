@@ -1,8 +1,21 @@
-.PHONY: deps test install clean purge packages
+.PHONY: deps test install clean purge reinstall packages
 
-CONF_FILE = runscripts.yml
-DATA_DIR  = /var/lib/runscripts
-RUN_BIN   = /usr/bin/run
+ifeq (`uname`,'Darwin`)
+RUN_CONF=/usr/local/etc/run.yml
+RUN_BIN=/usr/local/bin/run
+else
+RUN_CONF=/etc/run.yml
+RUN_BIN=/usr/bin/run
+endif
+
+DATA_DIR=/usr/local/run
+
+BUILD=go build -v
+MAIN=run.go
+
+PACKAGES=linux_amd64 linux_386 linux_arm \
+		 darwin_amd64 darwin_386 \
+		 freebsd_amd64 freebsd_386 \
 
 deps:
 	go get github.com/kylelemons/go-gypsy/yaml
@@ -11,22 +24,20 @@ test: deps
 	cd utils && go test
 
 install: deps
-	[ -e /etc/$(CONF_FILE) ] || cp $(CONF_FILE) /etc/
+	[ -e $(RUN_CONF) ] || cp run.yml $(RUN_CONF)
 	mkdir -p $(DATA_DIR) && chmod 777 $(DATA_DIR)
-	go build -o $(RUN_BIN) -v run.go
+	$(BUILD) -o $(RUN_BIN) $(MAIN)
 
 clean:
 	rm -f $(RUN_BIN)
 	rm -rf $(DATA_DIR)
 
 purge: clean
-	rm -f /etc/$(CONF_FILE)
+	rm -f $(RUN_CONF)
 
-packages:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -o packages/linux_amd64/run run.go
-	CGO_ENABLED=0 GOOS=linux GOARCH=386 go build -v -o packages/linux_386/run run.go
-	CGO_ENABLED=0 GOOS=linux GOARCH=arm go build -v -o packages/linux_arm/run run.go
-	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -o packages/darwin_amd64/run run.go
-	CGO_ENABLED=0 GOOS=darwin GOARCH=386 go build -v -o packages/darwin_386/run run.go
-	CGO_ENABLED=0 GOOS=freebsd GOARCH=amd64 go build -v -o packages/freebsd_amd64/run run.go
-	CGO_ENABLED=0 GOOS=freebsd GOARCH=386 go build -v -o packages/freebsd_386/run run.go
+reinstall: purge install
+
+packages: $(PACKAGES)
+
+$(PACKAGES):
+	echo $@ | awk -F_ '{print "CGO_ENABLED=0 GOOS="$$1" GOARCH="$$2" $(BUILD) -o packages/"$$1"_"$$2"/run $(MAIN)"}' | bash
