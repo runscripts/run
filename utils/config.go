@@ -4,15 +4,6 @@ import (
 	"github.com/kylelemons/go-gypsy/yaml"
 )
 
-// Default configuration settings.
-const (
-	CONFIG_PATH = "/etc/run.yml"
-	RUN_PATH    = "/usr/bin/run"
-	DATA_DIR    = "/var/lib/run"
-
-	RUN_YML_URL = "https://raw.githubusercontent.com/runscripts/run/master/run.yml"
-)
-
 // Configuration ojects in the YAML file.
 type Config struct {
 	Sources map[string]string

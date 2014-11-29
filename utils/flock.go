@@ -9,21 +9,14 @@ var lockFile *os.File
 
 // Lock the file.
 func Flock(path string) error {
-	err := fcntlFlock(syscall.F_WRLCK, path)
-	if err != nil {
-		LogError("Failed to lock file %s\n", path)
-		panic(err)
-	} else {
-		return nil
-	}
+	return fcntlFlock(syscall.F_WRLCK, path)
 }
 
 // Unlock the file.
 func Funlock(path string) error {
 	err := fcntlFlock(syscall.F_UNLCK)
 	if err != nil {
-		LogError("Failed to unlock file %s\n", path)
-		panic(err)
+		return err
 	} else {
 		return lockFile.Close()
 	}
@@ -36,8 +29,7 @@ func fcntlFlock(lockType int16, path ...string) error {
 		mode := syscall.O_CREAT | syscall.O_WRONLY
 		lockFile, err = os.OpenFile(path[0], mode, 0666)
 		if err != nil {
-			LogError("Can't open the lock file %s\n", path[0])
-			panic(err)
+			return err
 		}
 	}
 
@@ -47,7 +39,5 @@ func fcntlFlock(lockType int16, path ...string) error {
 		Type:   lockType,
 		Whence: int16(os.SEEK_SET),
 	}
-	err = syscall.FcntlFlock(lockFile.Fd(), syscall.F_SETLK, &lock)
-
-	return err
+	return syscall.FcntlFlock(lockFile.Fd(), syscall.F_SETLK, &lock)
 }

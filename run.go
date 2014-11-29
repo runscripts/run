@@ -3,13 +3,12 @@ package main
 import (
 	"fmt"
 	"os"
-	"syscall"
 
 	"github.com/runscripts/run/utils"
 )
 
 // Current version of run.
-const VERSION = "0.1.0"
+const VERSION = "0.2.0"
 
 // Show this help message.
 func help() {
@@ -21,7 +20,7 @@ Options:
 	-c, --clean     clean out all scripts cached in local
 	-h, --help      show this help message, then exit
 	-i INTERPRETER  run script with interpreter(e.g., bash, python)
-	-I, --init      init the directories to install run
+	-I, --init      create configuration and cache directory
 	-u, --update    force to update the script before run
 	-v, --view      view the content of script, then exit
 	-V, --version   output version information, then exit
@@ -35,40 +34,41 @@ Report bugs to <https://github.com/runscripts/run/issues>.`,
 	utils.LogInfo("\n")
 }
 
-// Main function of the command run.
-func main() {
-
-	// If init run.
-	for _, argument := range os.Args {
-		if argument == "-I" || argument == "--init" {
+// Initialize and exit if -I or --init is given.
+func initialize() {
+	for _, arg := range os.Args {
+		if arg == "-I" || arg == "--init" {
 			if utils.IsRunInstalled() {
-				utils.LogInfo("Run is already installed. No need to init again.")
+				utils.LogInfo("Run is already installed\n")
 			} else {
-				// Download and put it in /etc/runscripts.yml
+				if os.Geteuid() != 0 {
+					utils.LogError("Root privilege is required\n")
+					os.Exit(1)
+				}
+				// Download run.yml from master branch.
 				err := utils.Fetch(utils.RUN_YML_URL, utils.CONFIG_PATH)
 				if err != nil {
-					utils.LogError("Can't download from %s\n", utils.RUN_YML_URL)
-					panic(err)
+					utils.ExitError(err)
 				}
-				// Mkdir /var/lib/runscripts/
-				mask := syscall.Umask(0)                       // Refer to http://studygolang.com/topics/33
-				err = os.MkdirAll(utils.DATA_DIR, os.ModePerm) // 0777
+				// Create script cache directory.
+				err = os.MkdirAll(utils.DATA_DIR, 0777)
 				if err != nil {
-					utils.LogError("Error MkdirAll  %s", utils.DATA_DIR)
-					panic(err) // TODO: prompt "sudo"
+					utils.ExitError(err)
 				}
-				defer syscall.Umask(mask)
-				// Cp run to /usr/bin/run
-				utils.Exec([]string{"sh", "-c", "cp ./run " + utils.RUN_PATH})
 			}
-			return
+			os.Exit(0)
 		}
 	}
+}
 
-	// If run is not installed, prompt "sudo ./run --init".
+// Main function of the command run.
+func main() {
+	initialize()
+
+	// If run is not installed.
 	if utils.IsRunInstalled() == false {
-		utils.LogInfo("Run is not installed yet. Please \"sudo ./run --init\".\n")
-		return
+		utils.LogError("Run is not installed yet. You need to 'run --init' as root.\n")
+		os.Exit(1)
 	}
 
 	// Show help message if no parameter given.
@@ -85,8 +85,7 @@ func main() {
 	}
 	options, err := utils.NewOptions(config)
 	if err != nil {
-		utils.LogError("%v\n", err)
-		os.Exit(1)
+		utils.ExitError(err)
 	}
 
 	// If print help message.
@@ -114,8 +113,8 @@ func main() {
 
 	// If not script given.
 	if options.Fields == nil {
-		utils.LogError("Missing script to run\n")
-		return
+		utils.LogError("The script to run is not specified\n")
+		os.Exit(1)
 	}
 
 	// Ensure the cache directory has been created.
@@ -123,13 +122,15 @@ func main() {
 	cacheDir := utils.DATA_DIR + "/" + options.Scope + "/" + cacheID
 	err = os.MkdirAll(cacheDir, 0777)
 	if err != nil {
-		utils.LogError("Can't mkdir %s\n", cacheDir)
-		panic(err)
+		utils.ExitError(err)
 	}
 
 	// Lock the script.
 	lockPath := cacheDir + ".lock"
-	utils.Flock(lockPath)
+	err = utils.Flock(lockPath)
+	if err != nil {
+		utils.ExitError(err)
+	}
 
 	// Download the script.
 	scriptPath := cacheDir + "/" + options.Script
@@ -137,8 +138,7 @@ func main() {
 	if os.IsNotExist(err) || options.Update {
 		err = utils.Fetch(options.URL, scriptPath)
 		if err != nil {
-			utils.LogError("Can't download/update %s\n", scriptPath)
-			panic(err)
+			utils.ExitError(err)
 		}
 	}
 
@@ -155,5 +155,4 @@ func main() {
 	} else {
 		utils.Exec(append([]string{options.Interpreter, scriptPath}, options.Args...))
 	}
-
 }
