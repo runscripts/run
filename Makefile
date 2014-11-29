@@ -35,7 +35,7 @@ deps:
 	go get github.com/kylelemons/go-gypsy/yaml
 
 test: deps
-	cd utils && go test
+	cd utils && go test -cover -v
 
 install:
 	$(_OS) $(_ARCH) $(BUILD) -o $(RUN_BIN) $(MAIN)
