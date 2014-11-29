@@ -27,7 +27,7 @@ func LogInfo(format string, args ...interface{}) {
 	}
 }
 
-// Log error message.
+// Return formatted error.
 func Errorf(format string, args ...interface{}) error {
 	if len(args) > 0 {
 		return fmt.Errorf(format, args...)
@@ -44,22 +44,15 @@ func StrToSha1(str string) string {
 
 // Execute the command to replace current process.
 func Exec(args []string) error {
-	env := os.Environ()
-	var path string
-	var err error
-	if args[0][0] == '/' {
-		path = args[0]
-	} else {
-		path, err = exec.LookPath(args[0])
-		if err != nil {
-			panic(err)
-		}
+	path, err := exec.LookPath(args[0])
+	if err != nil {
+		panic(err)
 	}
-	return syscall.Exec(path, args, env)
+	return syscall.Exec(path, args, os.Environ())
 }
 
 // Determine if the file exists.
-func IsFileExist(file string) bool {
+func FileExists(file string) bool {
 	if _, err := os.Stat(file); os.IsNotExist(err) {
 		return false
 	} else {
@@ -69,5 +62,5 @@ func IsFileExist(file string) bool {
 
 // Determine if run is installed.
 func IsRunInstalled() bool {
-	return IsFileExist(CONFIG_PATH) && IsFileExist(DATA_DIR) && IsFileExist(RUN_PATH)
+	return FileExists(CONFIG_PATH) && FileExists(DATA_DIR) && FileExists(RUN_PATH)
 }
