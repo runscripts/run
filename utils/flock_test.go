@@ -31,6 +31,6 @@ func TestFlock(t *testing.T) {
 	}
 	err = cmd0.Wait()
 	if err != nil {
-		t.Fatal(err)
+		t.Error(err)
 	}
 }

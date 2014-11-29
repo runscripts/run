@@ -7,8 +7,8 @@ import (
 // Default configuration settings.
 const (
 	CONFIG_PATH = "/etc/run.yml"
-	DATA_DIR    = "/usr/local/run"
 	RUN_PATH    = "/usr/bin/run"
+	DATA_DIR    = "/var/lib/run"
 
 	RUN_YML_URL = "https://raw.githubusercontent.com/runscripts/run/master/run.yml"
 )
@@ -21,15 +21,14 @@ type Config struct {
 
 // Read default YAML file to get configuration.
 // Refer to <http://sweetohm.net/html/go-yaml-parsers.en.html> for usage.
-func NewConfig(path ...string) *Config {
+func NewConfig(path ...string) (*Config, error) {
 	file, err := yaml.ReadFile(CONFIG_PATH)
 	// NewConfig(path) would be only called in testing.
 	if len(path) > 0 {
 		file, err = yaml.ReadFile(path[0])
 	}
 	if err != nil {
-		LogError("Failed to parse configuration file %s\n", CONFIG_PATH)
-		panic(err)
+		return nil, err
 	}
 
 	config := Config{}
@@ -39,7 +38,7 @@ func NewConfig(path ...string) *Config {
 	for scope, url := range sources {
 		config.Sources[scope] = url.(yaml.Scalar).String()
 	}
-	return &config
+	return &config, nil
 }
 
 // Get YAML list.

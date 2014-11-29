@@ -78,8 +78,16 @@ func main() {
 	}
 
 	// Parse configuration and runtime options.
-	config := utils.NewConfig()
-	options := utils.NewOptions(config)
+	config, err := utils.NewConfig()
+	if err != nil {
+		utils.LogError("Failed to parse %s\n", utils.CONFIG_PATH)
+		os.Exit(1)
+	}
+	options, err := utils.NewOptions(config)
+	if err != nil {
+		utils.LogError("%v\n", err)
+		os.Exit(1)
+	}
 
 	// If print help message.
 	if options.Help {
@@ -113,7 +121,7 @@ func main() {
 	// Ensure the cache directory has been created.
 	cacheID := options.CacheID
 	cacheDir := utils.DATA_DIR + "/" + options.Scope + "/" + cacheID
-	err := os.MkdirAll(cacheDir, 0777)
+	err = os.MkdirAll(cacheDir, 0777)
 	if err != nil {
 		utils.LogError("Can't mkdir %s\n", cacheDir)
 		panic(err)

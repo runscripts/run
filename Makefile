@@ -13,15 +13,10 @@
 
 .PHONY: deps test install clean purge reinstall packages deb
 
-ifeq (`uname`,'Darwin')
-RUN_CONF=/usr/local/etc/run.yml
-RUN_BIN=/usr/local/bin/run
-else
 RUN_CONF=/etc/run.yml
 RUN_BIN=/usr/bin/run
-endif
+DATA_DIR=/var/lib/run
 
-DATA_DIR=/usr/local/run
 DEB_DIR=packages/deb
 
 BUILD=go build
@@ -43,7 +38,7 @@ test: deps
 	cd utils && go test
 
 install:
-	$(GOOS) $(GOARCH) $(BUILD) -o $(RUN_BIN) $(MAIN)
+	$(_OS) $(_ARCH) $(BUILD) -o $(RUN_BIN) $(MAIN)
 	[ -e $(RUN_CONF) ] || cp run.yml $(RUN_CONF)
 	mkdir -p $(DATA_DIR) && chmod 777 $(DATA_DIR)
 	cp LICENSE $(DATA_DIR)
@@ -67,7 +62,7 @@ deb: deps
 	[ -n "$(VERSION)" ] && [ `whoami` = 'root' ]
 	make purge
 	mkdir -p $(DEB_DIR) && rm -rf $(DEB_DIR)/*.deb
-	checkinstall $(DEB_FLAG) --arch="amd64" make install GOOS="GOOS=linux" GOARCH="GOARCH=amd64"
-	checkinstall $(DEB_FLAG) --arch="386" make install GOOS="GOOS=linux" GOARCH="GOARCH=386"
+	checkinstall $(DEB_FLAG) --arch="amd64" make install _OS="GOOS=linux" _ARCH="GOARCH=amd64"
+	checkinstall $(DEB_FLAG) --arch="386" make install _OS="GOOS=linux" _ARCH="GOARCH=386"
 	mv *.deb $(DEB_DIR)
 
