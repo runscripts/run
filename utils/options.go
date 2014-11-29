@@ -5,15 +5,29 @@ import (
 	"strings"
 )
 
+const VALID_SCOPE_CHARS = "-_." + "1234567890" +
+	"abcdefghijklmnopqrstuvwxyz" +
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+// Determine if a scope name contains invalid characters.
+func IsScopeNameValid(scope string) bool {
+	for _, c := range scope {
+		if strings.IndexRune(VALID_SCOPE_CHARS, c) < 0 {
+			return false
+		}
+	}
+	return scope[0] != '-' && scope[0] != '.'
+}
+
 // All the options when run the script.
 type Options struct {
 	Program     string
+	Clean       bool
 	Help        bool
-	Init        bool
 	Interpreter string
+	Init        bool
 	Update      bool
 	View        bool
-	Clean       bool
 	Version     bool
 	Scope       string
 	Fields      []string
@@ -24,15 +38,15 @@ type Options struct {
 }
 
 // Give configuration and set runtime options.
-func NewOptions(config *Config) *Options {
+func NewOptions(config *Config) (*Options, error) {
 	options := Options{
 		Program:     os.Args[0],
+		Clean:       false,
 		Help:        false,
-		Init:        false,
 		Interpreter: "",
+		Init:        false,
 		Update:      false,
 		View:        false,
-		Clean:       false,
 		Version:     false,
 		Scope:       "default",
 		Fields:      nil,
@@ -48,27 +62,27 @@ func NewOptions(config *Config) *Options {
 			break
 		}
 		switch opt {
+		case "-c", "--clean":
+			options.Clean = true
 		case "-h", "--help":
 			options.Help = true
-		case "-I", "--init":
-			options.Init = true
 		case "-i":
 			if i+1 == length || os.Args[i+1][0] == '-' {
-				panic(Errorf("Missing interpreter (e.g., bash, python) after -i"))
+				return nil, Errorf("Missing interpreter (e.g., bash, python) after -i")
 			} else {
 				options.Interpreter = os.Args[i+1]
 				i += 1
 			}
+		case "-I", "--init":
+			options.Init = true
 		case "-u", "--update":
 			options.Update = true
 		case "-v", "--view":
 			options.View = true
 		case "-V", "--version":
 			options.Version = true
-		case "-c", "--clean":
-			options.Clean = true
 		default:
-			panic(Errorf("Unknown option %s", opt))
+			return nil, Errorf("Unknown option %s", opt)
 		}
 	}
 
@@ -80,6 +94,9 @@ func NewOptions(config *Config) *Options {
 		j := strings.Index(opt, ":")
 		if j >= 0 {
 			options.Scope = opt[:j]
+			if !IsScopeNameValid(options.Scope) {
+				return nil, Errorf("Scope name %s is invalid", options.Scope)
+			}
 			fields = opt[j+1:]
 		} else {
 			fields = opt
@@ -87,23 +104,23 @@ func NewOptions(config *Config) *Options {
 		// Get scope pattern from configuration.
 		pattern, ok := (*config).Sources[options.Scope]
 		if !ok {
-			panic(Errorf(
+			return nil, Errorf(
 				"%s: sources: %s scope didn't exist",
 				CONFIG_PATH, options.Scope,
-			))
+			)
 		}
 		// Examine whether scope pattern and fields can be matched.
 		nReplace := strings.Count(pattern, "%s")
 		if nReplace == 0 {
-			panic(Errorf(
+			return nil, Errorf(
 				"%s: sources: %s scope didn't contain %%s",
 				CONFIG_PATH, options.Scope,
-			))
+			)
 		} else if nReplace > strings.Count(fields, "/")+1 {
-			panic(Errorf(
+			return nil, Errorf(
 				"%s: sources: %s scope required more fields",
 				CONFIG_PATH, options.Scope,
-			))
+			)
 		}
 		// Parse fields and url.
 		options.Fields = strings.SplitN(fields, "/", nReplace)
@@ -120,5 +137,5 @@ func NewOptions(config *Config) *Options {
 		options.CacheID = StrToSha1(fields)
 	}
 
-	return &options
+	return &options, nil
 }
