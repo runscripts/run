@@ -43,15 +43,21 @@ func NewConfigFromString(str string) (*Config, error) {
 			continue
 		} else if line[0] == '[' {
 			switch line {
-			case "[sources]": option = config.Sources
-			default: return nil, Errorf("Unknown option: %s", line)
+			case "[sources]":
+				option = config.Sources
+			default:
+				return nil, Errorf("%s: unknown option: %s", CONFIG_PATH, line)
 			}
 		} else {
 			tokens := strings.SplitN(line, ":", 2)
 			if len(tokens) != 2 {
-				return nil, Errorf("Incorret configuration format: %s", line)
+				return nil, Errorf("%s: incorret format: %s", CONFIG_PATH, line)
 			}
-			option[strings.TrimSpace(tokens[0])] = strings.TrimSpace(tokens[1])
+			scope := strings.TrimSpace(tokens[0])
+			if !IsScopeNameValid(scope) {
+				return nil, Errorf("%s: invalid scope name: %s", CONFIG_PATH, scope)
+			}
+			option[scope] = strings.TrimSpace(tokens[1])
 		}
 	}
 

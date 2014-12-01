@@ -45,7 +45,7 @@ func initialize() {
 					utils.LogError("Root privilege is required\n")
 					os.Exit(1)
 				}
-				// Download run.yml from master branch.
+				// Download run.conf from master branch.
 				err := utils.Fetch(utils.RUN_YML_URL, utils.CONFIG_PATH)
 				if err != nil {
 					utils.ExitError(err)
@@ -80,8 +80,7 @@ func main() {
 	// Parse configuration and runtime options.
 	config, err := utils.NewConfig()
 	if err != nil {
-		utils.LogError("Failed to parse %s\n", utils.CONFIG_PATH)
-		os.Exit(1)
+		utils.ExitError(err)
 	}
 	options, err := utils.NewOptions(config)
 	if err != nil {
@@ -106,7 +105,7 @@ func main() {
 		var answer string
 		fmt.Scanln(&answer)
 		if answer == "Y" || answer == "y" {
-			utils.Exec([]string{"sh", "-c", "rm -rf " + utils.DATA_DIR + "/*"})
+			utils.Exec([]string{"sh", "-x", "-c", "rm -rf " + utils.DATA_DIR + "/*"})
 		}
 		return
 	}
@@ -129,7 +128,8 @@ func main() {
 	lockPath := cacheDir + ".lock"
 	err = utils.Flock(lockPath)
 	if err != nil {
-		utils.ExitError(err)
+		utils.LogError("%s: %v\n", lockPath, err)
+		os.Exit(1)
 	}
 
 	// Download the script.
