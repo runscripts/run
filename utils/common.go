@@ -11,7 +11,7 @@ import (
 
 // Default configuration settings.
 const (
-	CONFIG_PATH = "/etc/run.yml"
+	CONFIG_PATH = "/etc/run.conf"
 	DATA_DIR    = "/var/lib/run"
 
 	RUN_YML_URL = "https://raw.githubusercontent.com/runscripts/run/master/run.yml"

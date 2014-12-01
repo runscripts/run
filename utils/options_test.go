@@ -21,7 +21,7 @@ func TestIsScopeNameValid(t *testing.T) {
 }
 
 func TestNewOptions(t *testing.T) {
-	config, err := NewConfig("../run.yml")
+	config, err := NewConfig("../run.conf")
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -3,7 +3,7 @@ package utils
 import "testing"
 
 func TestNewConfig(t *testing.T) {
-	config, err := NewConfig("../run.yml")
+	config, err := NewConfig("../run.conf")
 	if err != nil {
 		t.Error(err)
 	}

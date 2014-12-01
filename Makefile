@@ -1,8 +1,8 @@
 # Install
-#   make && sudo GOPATH=$GOPATH make install
+#   sudo GOPATH=$GOPATH make install
 #
 # Packages
-#   NOTICE: Backup your run.yml before run the following command
+#   NOTICE: Backup your run.conf before run the following command
 #   sudo GOPATH=$GOPATH make packages VERSION="X.Y.Z"
 #
 # Other
@@ -11,9 +11,9 @@
 #   sudo make purge
 #   sudo GOPATH=$GOPATH make reinstall
 
-.PHONY: deps test install clean purge reinstall packages deb
+.PHONY: help test install clean purge reinstall packages deb
 
-RUN_CONF=/etc/run.yml
+RUN_CONF=/etc/run.conf
 RUN_BIN=/usr/bin/run
 DATA_DIR=/var/lib/run
 
@@ -31,15 +31,15 @@ DEB_FLAG=-y --install=no --fstrans=yes --nodoc --backup=no \
 		 --pkgversion=`date +"%Y%m%d"` --pkgrelease=$(VERSION) \
 		 --pkgaltsource="https://github.com/runscripts/run"
 
-deps:
-	go get github.com/kylelemons/go-gypsy/yaml
+help:
+	echo 'sudo GOPATH=$$GOPATH make install'
 
-test: deps
+test:
 	cd utils && go test -cover -v
 
 install:
 	$(_OS) $(_ARCH) $(BUILD) -o $(RUN_BIN) $(MAIN)
-	[ -e $(RUN_CONF) ] || cp run.yml $(RUN_CONF)
+	[ -e $(RUN_CONF) ] || cp run.conf $(RUN_CONF)
 	mkdir -p $(DATA_DIR) && chmod 777 $(DATA_DIR)
 	cp LICENSE $(DATA_DIR)
 
@@ -58,7 +58,7 @@ $(PACKAGES):
 	echo $@ | awk -F_ '{print "mkdir -p packages/"$$1"_"$$2}' | bash
 	echo $@ | awk -F_ '{print "CGO_ENABLED=0 GOOS="$$1" GOARCH="$$2" $(BUILD) -o packages/"$$1"_"$$2"/run $(MAIN)"}' | bash
 
-deb: deps
+deb:
 	[ -n "$(VERSION)" ] && [ `whoami` = 'root' ]
 	make purge
 	mkdir -p $(DEB_DIR) && rm -rf $(DEB_DIR)/*.deb
