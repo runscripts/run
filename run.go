@@ -8,7 +8,7 @@ import (
 )
 
 // Current version of run.
-const VERSION = "0.2.0"
+const VERSION = "0.2.2"
 
 // Show this help message.
 func help() {
