@@ -4,9 +4,9 @@
 
 ## Introducatoin
 
-[Run](https://github.com/runscripts/run) is awaited manager for scripts, just like [homebrew](https://github.com/Homebrew/homebrew) and [bower](https://github.com/bower/bower).
+[Run](https://github.com/runscripts/run) is the missing manager for developers.
 
-It helps to manage your scripts and make reuse of scripts much easier. After installing run, you get the command `run`. Please `run pt-summary` and it will download the well-known pt-summary to run. If you push your scritps to GitHub, you can simply use it like `run github:runscripts/scripts/pt-summary`.
+It helps to manage and re-use scripts more easily. After installing run, you get the command `run`. Please `run pt-summary` and it will download the well-known pt-summary to run. If you push your scritps to GitHub, you can simply use it like `run github:runscripts/scripts/pt-summary`.
 
 ## Install
 
