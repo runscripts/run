@@ -6,7 +6,7 @@
 
 [Run](https://github.com/runscripts/run) is the missing manager for developers.
 
-It helps to manage and re-use scripts more easily. After installing run, you get the command `run`. Please `run pt-summary` and it will download the well-known pt-summary to run. If you push your scritps to GitHub, you can simply use it like `run github:runscripts/scripts/pt-summary`.
+It helps to manage and re-use scripts more easily. After installing run, you get the command `run`. Please `run pt-summary` and it will download the well-known pt-summary to run. If you push your scripts to GitHub, you can simply use it like `run github:runscripts/scripts/pt-summary`.
 
 ## Install
 
@@ -18,10 +18,10 @@ It helps to manage and re-use scripts more easily. After installing run, you get
 
   Operating System | Architectures
   ---------------- | -------------
-  Linux            | [386](https://raw.githubusercontent.com/runscripts/run/packages/packages/linux_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run/packages/packages/linux_amd64/run), [arm](https://raw.githubusercontent.com/runscripts/run/packages/packages/linux_arm/run)
-  Mac OS           | [386](https://raw.githubusercontent.com/runscripts/run/packages/packages/darwin_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run/packages/packages/darwin_amd64/run)
-  FreeBSD          | [386](https://raw.githubusercontent.com/runscripts/run/packages/packages/freebsd_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run/packages/packages/freebsd_amd64/run)
-  Debian/Ubuntu    | [386](https://raw.githubusercontent.com/runscripts/run/packages/packages/deb/run_20141202-0.2.2_386.deb), [amd64](https://raw.githubusercontent.com/runscripts/run/packages/packages/deb/run_20141202-0.2.2_amd64.deb)
+  Linux            | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.3/linux_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.3/linux_amd64/run), [arm](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.3/linux_arm/run)
+  Mac OS           | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.3/darwin_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.3/darwin_amd64/run)
+  FreeBSD          | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.3/freebsd_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.3/freebsd_amd64/run)
+  Debian/Ubuntu    | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.3/deb/run_20141222-0.3.3_386.deb), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.3/deb/run_20141222-0.3.3_amd64.deb)
   
   Download binary in the table according to your OS/Arch and place it in **$PATH** (like /usr/bin/). Then execute `sudo run --init`.
 
