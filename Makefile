@@ -40,7 +40,7 @@ test:
 
 install:
 	$(_OS) $(_ARCH) $(BUILD) -o $(RUN_BIN) $(MAIN)
-	[ -e $(RUN_CONF) ] || cp run.conf $(RUN_CONF) && chmod 666 $(RUN_CONF)
+	[ -e $(RUN_CONF) ] || cp run.conf $(RUN_CONF)
 	mkdir -p $(DATA_DIR) && chmod 777 $(DATA_DIR)
 	cp LICENSE $(DATA_DIR)
 
