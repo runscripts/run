@@ -6,8 +6,8 @@ import (
 	"os"
 	"syscall"
 
-	"github.com/runscripts/run/utils"
 	flock "github.com/runscripts/run/flock"
+	"github.com/runscripts/run/utils"
 )
 
 // Show this help message.
@@ -45,18 +45,26 @@ func initialize() {
 					utils.LogError("Root privilege is required\n")
 					os.Exit(1)
 				}
-				// Download run.conf from master branch.
-				err := utils.Fetch(utils.RUN_CONF_URL, utils.CONFIG_PATH)
-				if err != nil {
-					utils.ExitError(err)
-				}
 				// Create script cache directory.
-				mask := syscall.Umask(0) // Need this in Mac OS
-				err = os.MkdirAll(utils.DATA_DIR, 0777)
+				mask := syscall.Umask(0)
+				err := os.MkdirAll(utils.DATA_DIR, 0777)
 				if err != nil {
 					utils.ExitError(err)
 				}
 				defer syscall.Umask(mask)
+				// Download run.conf, VERSION and run.1.gz from master branch.
+				err = utils.Fetch(utils.MASTER_URL+"run.conf", utils.CONFIG_PATH)
+				if err != nil {
+					utils.ExitError(err)
+				}
+				err = utils.Fetch(utils.MASTER_URL+"VERSION", utils.DATA_DIR+"/VERSION")
+				if err != nil {
+					utils.ExitError(err)
+				}
+				err = utils.Fetch(utils.MASTER_URL+"man/run.1.gz", "/usr/share/man/man1/run.1.gz")
+				if err != nil {
+					utils.ExitError(err)
+				}
 			}
 			os.Exit(0)
 		}
