@@ -46,12 +46,10 @@ func initialize() {
 					os.Exit(1)
 				}
 				// Create script cache directory.
-				mask := syscall.Umask(0)
 				err := os.MkdirAll(utils.DATA_DIR, 0777)
 				if err != nil {
 					utils.ExitError(err)
 				}
-				defer syscall.Umask(mask)
 				// Download run.conf, VERSION and run.1.gz from master branch.
 				err = utils.Fetch(utils.MASTER_URL+"run.conf", utils.CONFIG_PATH)
 				if err != nil {
@@ -73,6 +71,8 @@ func initialize() {
 
 // Main function of the command run.
 func main() {
+	mask := syscall.Umask(0)
+	defer syscall.Umask(mask)
 	initialize()
 
 	// If run is not installed.

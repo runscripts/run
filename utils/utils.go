@@ -3,6 +3,7 @@ package utils
 import (
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 // Http Get to fetch file.
@@ -20,5 +21,11 @@ func Fetch(url string, path string) error {
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(path, body, 0777)
+	if strings.HasPrefix(url, MASTER_URL) {
+		// Downloaded run.conf, etc.
+		return ioutil.WriteFile(path, body, 0644)
+	} else {
+		// Downloaded scripts.
+		return ioutil.WriteFile(path, body, 0777)
+	}
 }
