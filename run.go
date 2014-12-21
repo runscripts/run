@@ -97,7 +97,10 @@ func main() {
 
 	// If output version information.
 	if options.Version {
-		version := ioutil.ReadFile(utils.DATA_DIR + "/VERSION")
+		version, err := ioutil.ReadFile(utils.DATA_DIR + "/VERSION")
+		if err != nil {
+			utils.ExitError(err)
+		}
 		utils.LogInfo("Run version %s\n", version)
 		return
 	}
