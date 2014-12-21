@@ -11,10 +11,10 @@ import (
 
 // Default configuration settings.
 const (
-	CONFIG_PATH = "/etc/run.conf"
-	MAC_CONF_PATH = "/usr/local/etc/run.conf" // For homebrew user
+	CONFIG_PATH   = "/etc/run.conf"
+	MAC_CONFIG_PATH = "/usr/local/etc/run.conf" // For homebrew user
 
-	DATA_DIR    = "/usr/local/run"
+	DATA_DIR = "/usr/local/run"
 
 	RUN_CONF_URL = "https://raw.githubusercontent.com/runscripts/run/master/run.conf"
 )

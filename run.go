@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/runscripts/run/utils"
+	flock "github.com/runscripts/run/flock"
 )
 
 // Current version of run.
@@ -126,7 +127,7 @@ func main() {
 
 	// Lock the script.
 	lockPath := cacheDir + ".lock"
-	err = utils.Flock(lockPath)
+	err = flock.Flock(lockPath)
 	if err != nil {
 		utils.LogError("%s: %v\n", lockPath, err)
 		os.Exit(1)
@@ -144,12 +145,12 @@ func main() {
 
 	// If view the script.
 	if options.View {
-		utils.Funlock(lockPath)
+		flock.Funlock(lockPath)
 		utils.Exec([]string{"cat", scriptPath})
 	}
 
 	// Run the script.
-	utils.Funlock(lockPath)
+	flock.Funlock(lockPath)
 	if options.Interpreter == "" {
 		utils.Exec(append([]string{scriptPath}, options.Args...))
 	} else {

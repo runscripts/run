@@ -4,7 +4,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/runscripts/run/utils"
+	"github.com/runscripts/run/flock"
 )
 
 // This program is run by flock_test.go to verify the lock effect.
@@ -13,12 +13,12 @@ func main() {
 	if os.Args[1] == "1" {
 		time.Sleep(time.Millisecond * 100)
 	}
-	if err := utils.Flock(path); err != nil {
+	if err := flock.Flock(path); err != nil {
 		panic(err)
 	}
 	if os.Args[1] == "0" {
 		time.Sleep(time.Millisecond * 200)
-		if err := utils.Funlock(path); err != nil {
+		if err := flock.Funlock(path); err != nil {
 			panic(err)
 		}
 	}
