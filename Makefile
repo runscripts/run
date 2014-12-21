@@ -14,6 +14,7 @@
 .PHONY: help test install clean purge reinstall packages deb
 
 RUN_CONF=/etc/run.conf
+MAC_RUN_CONF=/usr/local/etc/run.conf
 RUN_BIN=/usr/bin/run
 DATA_DIR=/usr/local/run
 
@@ -39,7 +40,7 @@ test:
 
 install:
 	$(_OS) $(_ARCH) $(BUILD) -o $(RUN_BIN) $(MAIN)
-	[ -e $(RUN_CONF) ] || cp run.conf $(RUN_CONF)
+	[ -e $(RUN_CONF) ] || cp run.conf $(RUN_CONF) && chmod 666 $(RUN_CONF)
 	mkdir -p $(DATA_DIR) && chmod 777 $(DATA_DIR)
 	cp LICENSE $(DATA_DIR)
 
@@ -49,6 +50,7 @@ clean:
 
 purge: clean
 	rm -f $(RUN_CONF)
+	rm -f $(MAC_RUN_CONF)
 
 reinstall: purge install
 
@@ -65,4 +67,3 @@ deb:
 	checkinstall $(DEB_FLAG) --arch="amd64" make install _OS="GOOS=linux" _ARCH="GOARCH=amd64"
 	checkinstall $(DEB_FLAG) --arch="386" make install _OS="GOOS=linux" _ARCH="GOARCH=386"
 	mv *.deb $(DEB_DIR)
-
