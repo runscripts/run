@@ -1,0 +1,8 @@
+#!/bin/sh
+
+VERSION=`cat VERSION`
+
+if [ "`git diff HEAD~1 HEAD VERSION`" != "" ]; then
+    git tag $VERSION
+    echo "Created a new tag" $VERSION
+fi

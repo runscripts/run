@@ -42,7 +42,7 @@ install:
 	$(_OS) $(_ARCH) $(BUILD) -o $(RUN_BIN) $(MAIN)
 	[ -e $(RUN_CONF) ] || cp run.conf $(RUN_CONF)
 	mkdir -p $(DATA_DIR) && chmod 777 $(DATA_DIR)
-	cp LICENSE $(DATA_DIR)
+	cp VERSION $(DATA_DIR)
 
 clean:
 	rm -f $(RUN_BIN)

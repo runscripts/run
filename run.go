@@ -2,15 +2,13 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"syscall"
 
 	"github.com/runscripts/run/utils"
 	flock "github.com/runscripts/run/flock"
 )
-
-// Current version of run.
-const VERSION = "0.2.2"
 
 // Show this help message.
 func help() {
@@ -99,7 +97,8 @@ func main() {
 
 	// If output version information.
 	if options.Version {
-		utils.LogInfo("Run version %s\n", VERSION)
+		version := ioutil.ReadFile(utils.DATA_DIR + "/VERSION")
+		utils.LogInfo("Run version %s\n", version)
 		return
 	}
 
