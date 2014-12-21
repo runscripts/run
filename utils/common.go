@@ -12,7 +12,7 @@ import (
 // Default configuration settings.
 const (
 	CONFIG_PATH = "/etc/run.conf"
-	MAC_CONF_PATH = "/usr/local/etc/run.conf"
+	MAC_CONF_PATH = "/usr/local/etc/run.conf" // For homebrew user
 
 	DATA_DIR    = "/usr/local/run"
 
@@ -21,7 +21,7 @@ const (
 
 // Determine if run is installed.
 func IsRunInstalled() bool {
-	return FileExists(CONFIG_PATH) && FileExists(DATA_DIR)
+	return (FileExists(CONFIG_PATH) || FileExists(MAC_CONFIG_PATH)) && FileExists(DATA_DIR)
 }
 
 // Log error message.
