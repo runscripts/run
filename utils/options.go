@@ -105,7 +105,7 @@ func NewOptions(config *Config) (*Options, error) {
 		pattern, ok := (*config).Sources[options.Scope]
 		if !ok {
 			return nil, Errorf(
-				"%s: [sources] \x1b[33m%s\x1b[39m scope does not exist",
+				"%s: [sources] '%s' scope does not exist",
 				CONFIG_PATH, options.Scope,
 			)
 		}
@@ -113,12 +113,12 @@ func NewOptions(config *Config) (*Options, error) {
 		nReplace := strings.Count(pattern, "%s")
 		if nReplace == 0 {
 			return nil, Errorf(
-				"%s: [sources] \x1b[33m%s\x1b[39m scope does not contain %%s",
+				"%s: [sources] '%s' scope does not contain %%s",
 				CONFIG_PATH, options.Scope,
 			)
 		} else if nReplace > strings.Count(fields, "/")+1 {
 			return nil, Errorf(
-				"%s: [sources] \x1b[33m%s\x1b[39m scope contains %d %%s",
+				"%s: [sources] '%s' scope contains %d %%s",
 				CONFIG_PATH, options.Scope, nReplace,
 			)
 		}
