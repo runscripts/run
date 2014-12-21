@@ -17,6 +17,7 @@ RUN_CONF=/etc/run.conf
 MAC_RUN_CONF=/usr/local/etc/run.conf
 RUN_BIN=/usr/bin/run
 DATA_DIR=/usr/local/run
+MAN_DIR=/usr/share/man/man1
 
 DEB_DIR=packages/deb
 
@@ -43,10 +44,12 @@ install:
 	[ -e $(RUN_CONF) ] || cp run.conf $(RUN_CONF)
 	mkdir -p $(DATA_DIR) && chmod 777 $(DATA_DIR)
 	cp VERSION $(DATA_DIR)
+	cp man/run.1.gz $(MAN_DIR)
 
 clean:
 	rm -f $(RUN_BIN)
 	rm -rf $(DATA_DIR)
+	rm -f $(MAN_DIR)/run.1.gz
 
 purge: clean
 	rm -f $(RUN_CONF)
