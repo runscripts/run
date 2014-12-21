@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"syscall"
 
 	"github.com/runscripts/run/utils"
 	flock "github.com/runscripts/run/flock"
@@ -52,10 +53,12 @@ func initialize() {
 					utils.ExitError(err)
 				}
 				// Create script cache directory.
+				mask := syscall.Umask(0) // Need this in Mac OS
 				err = os.MkdirAll(utils.DATA_DIR, 0777)
 				if err != nil {
 					utils.ExitError(err)
 				}
+				defer syscall.Umask(mask)
 			}
 			os.Exit(0)
 		}
