@@ -15,7 +15,7 @@
 
 RUN_CONF=/etc/run.conf
 RUN_BIN=/usr/bin/run
-DATA_DIR=/var/lib/run
+DATA_DIR=/usr/local/run
 
 DEB_DIR=packages/deb
 

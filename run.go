@@ -46,7 +46,7 @@ func initialize() {
 					os.Exit(1)
 				}
 				// Download run.conf from master branch.
-				err := utils.Fetch(utils.RUN_YML_URL, utils.CONFIG_PATH)
+				err := utils.Fetch(utils.RUN_CONF_URL, utils.CONFIG_PATH)
 				if err != nil {
 					utils.ExitError(err)
 				}

@@ -12,9 +12,11 @@ import (
 // Default configuration settings.
 const (
 	CONFIG_PATH = "/etc/run.conf"
-	DATA_DIR    = "/var/lib/run"
+	MAC_CONF_PATH = "/usr/local/etc/run.conf"
 
-	RUN_YML_URL = "https://raw.githubusercontent.com/runscripts/run/master/run.conf"
+	DATA_DIR    = "/usr/local/run"
+
+	RUN_CONF_URL = "https://raw.githubusercontent.com/runscripts/run/master/run.conf"
 )
 
 // Determine if run is installed.
