@@ -27,7 +27,9 @@ func fcntlFlock(lockType int16, path ...string) error {
 	var err error
 	if lockType != syscall.F_UNLCK {
 		mode := syscall.O_CREAT | syscall.O_WRONLY
+		mask := syscall.Umask(0)
 		lockFile, err = os.OpenFile(path[0], mode, 0666)
+		syscall.Umask(mask)
 		if err != nil {
 			return err
 		}

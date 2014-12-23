@@ -20,11 +20,7 @@ func NewConfig(path ...string) (*Config, error) {
 	if len(path) > 0 {
 		content, err = ioutil.ReadFile(path[0])
 	} else {
-		if (FileExists(CONFIG_PATH)) {
-			content, err = ioutil.ReadFile(CONFIG_PATH)
-		} else {
-			content, err = ioutil.ReadFile(MAC_CONFIG_PATH)
-		}
+		content, err = ioutil.ReadFile(CONFIG_PATH)
 	}
 	if err != nil {
 		return nil, err

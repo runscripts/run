@@ -6,7 +6,7 @@ import (
 	"os"
 	"syscall"
 
-	flock "github.com/runscripts/run/flock"
+	"github.com/runscripts/run/flock"
 	"github.com/runscripts/run/utils"
 )
 
@@ -50,7 +50,7 @@ func initialize() {
 				if err != nil {
 					utils.ExitError(err)
 				}
-				// Download run.conf, VERSION and run.1.gz from master branch.
+				// Download run.conf, VERSION and run.1 from master branch.
 				err = utils.Fetch(utils.MASTER_URL+"run.conf", utils.CONFIG_PATH)
 				if err != nil {
 					utils.ExitError(err)
@@ -59,7 +59,7 @@ func initialize() {
 				if err != nil {
 					utils.ExitError(err)
 				}
-				err = utils.Fetch(utils.MASTER_URL+"man/run.1.gz", "/usr/share/man/man1/run.1.gz")
+				err = utils.Fetch(utils.MASTER_URL+"man/run.1", "/usr/share/man/man1/run.1.gz")
 				if err != nil {
 					utils.ExitError(err)
 				}
@@ -73,6 +73,7 @@ func initialize() {
 func main() {
 	mask := syscall.Umask(0)
 	defer syscall.Umask(mask)
+	utils.SetConfigPath()
 	initialize()
 
 	// If run is not installed.
@@ -119,7 +120,8 @@ func main() {
 		var answer string
 		fmt.Scanln(&answer)
 		if answer == "Y" || answer == "y" {
-			utils.Exec([]string{"sh", "-x", "-c", "rm -rf " + utils.DATA_DIR + "/*"})
+			// rm -rf $DATA_DIR/* will remove VERSION. Use $DATA_DIR/*/ instead.
+			utils.Exec([]string{"sh", "-x", "-c", "rm -rf " + utils.DATA_DIR + "/*/"})
 		}
 		return
 	}

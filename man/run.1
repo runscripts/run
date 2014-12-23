@@ -1,0 +1,96 @@
+.\"
+.\"     Title: Run
+.\"    Author: wizawu@gmail.com
+.\"      Date: 2014
+.\"  Language: English
+.\"
+.TH RUN 1
+
+.SH NAME
+\fBRun\fP \- The missing script manager for developers.
+
+.SH SYNOPSIS
+.B run
+[\fIOPTIONS\fP] [\fISCOPE:\fP]\fISCRIPT\fP
+
+.SH DESCRIPTION
+Run is the missing manager for developers.
+
+It helps to manage and re-use scripts more easily. After installing run, you get
+the command run. Please run pt-summary and it will download the well-known
+pt-summary to run. If you push your scripts to GitHub, you can simply use it
+like run github:runscripts/scripts/pt-summary.
+
+.SH OPTIONS
+
+.TP
+\fB-c\fP, \fB\-\-clean\fP
+Clean out all scripts cached in local.
+
+.TP
+\fB-h\fP, \fB\-\-help\fP
+Show a brief help message, then exit.
+
+.TP
+\fB-i\ INTERPRETER\fP
+You can specify an interpreter (e.g., bash, python) here.
+
+.TP
+\fB-I\fP, \fB\-\-init\fP
+Create configuration and cache directory.
+
+.TP
+\fB-u\fP, \fB\-\-update\fP
+Force to update the script before run it.
+
+.TP
+\fB-v\fP, \fB\-\-view\fP
+View the content of script, then exit.
+
+.TP
+\fB-V\fP, \fB\-\-version\fP
+Output version information, then exit.
+
+.SH FILES
+
+.TP
+\fI/etc/run.conf\fP (Linux, FreeBSD, etc), \fI/usr/local/etc/run.conf\fP (Mac OS)
+System-wide configuration file.
+
+.TP
+\fI/usr/local/run\fP
+Directory for caching scripts.
+
+.SH EXAMPLES
+
+.TP
+\fBExample 1\fP
+run pt-summary
+
+.PP
+This will use the \fBdefault\fP scope in \fIrun.conf\fP:
+.TP
+\fI\fP
+default:\ https://raw.githubusercontent.com/runscripts/scripts/master/%s
+.PP
+And replace \fB%s\fP with \fBpt-summary\fP.
+.PP
+
+.TP
+\fBExample 2\fP
+run github:runscripts/scripts/pt-summary
+
+.PP
+This will use the \fBgithub\fP scope in \fIrun.conf\fP:
+.TP
+\fI\fP
+github: https://raw.githubusercontent.com/%s/%s/master/%s
+.PP
+And replace three \fB%s\fP with \fBrunscripts\fP, \fBscripts\fP and
+\fBpt-summary\fP sequentially.
+
+.SH COPYRIGHT
+Copyright 2014 runscripts.org.
+
+.SH BUGS
+Please report bugs at https://github.com/runscripts/run/issues.

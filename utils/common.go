@@ -6,22 +6,30 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"runtime"
 	"syscall"
 )
 
 // Default configuration settings.
+var CONFIG_PATH = ""
+
 const (
-	CONFIG_PATH     = "/etc/run.conf"
-	MAC_CONFIG_PATH = "/usr/local/etc/run.conf" // For homebrew user
-
-	DATA_DIR = "/usr/local/run"
-
+	DATA_DIR   = "/usr/local/run"
 	MASTER_URL = "https://raw.githubusercontent.com/runscripts/run/master/"
 )
 
+// Determine the CONFIG_PATH according to OS type.
+func SetConfigPath() {
+	if runtime.GOOS == "darwin" {
+		CONFIG_PATH = "/usr/local/etc/run.conf"
+	} else {
+		CONFIG_PATH = "/etc/run.conf"
+	}
+}
+
 // Determine if run is installed.
 func IsRunInstalled() bool {
-	return (FileExists(CONFIG_PATH) || FileExists(MAC_CONFIG_PATH)) && FileExists(DATA_DIR)
+	return FileExists(CONFIG_PATH) && FileExists(DATA_DIR)
 }
 
 // Log error message.

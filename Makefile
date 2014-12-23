@@ -13,11 +13,15 @@
 
 .PHONY: help test install clean purge reinstall packages deb
 
+ifeq (`uname`,'Darwin')
+RUN_CONF=/usr/local/etc/run.conf
+else
 RUN_CONF=/etc/run.conf
-MAC_RUN_CONF=/usr/local/etc/run.conf
+endif
+
 RUN_BIN=/usr/bin/run
 DATA_DIR=/usr/local/run
-MAN_DIR=/usr/share/man/man1
+MAN_PAGE=/usr/share/man/man1/run.1.gz
 
 DEB_DIR=packages/deb
 
@@ -37,6 +41,7 @@ help:
 	echo 'sudo GOPATH=$$GOPATH make install'
 
 test:
+	cd flock && go test -cover -v
 	cd utils && go test -cover -v
 
 install:
@@ -44,16 +49,15 @@ install:
 	[ -e $(RUN_CONF) ] || cp run.conf $(RUN_CONF)
 	mkdir -p $(DATA_DIR) && chmod 777 $(DATA_DIR)
 	cp VERSION $(DATA_DIR)
-	cp man/run.1.gz $(MAN_DIR)
+	gzip -c man/run.1 > $(MAN_PAGE)
 
 clean:
 	rm -f $(RUN_BIN)
 	rm -rf $(DATA_DIR)
-	rm -f $(MAN_DIR)/run.1.gz
+	rm -f $(MAN_PAGE)
 
 purge: clean
 	rm -f $(RUN_CONF)
-	rm -f $(MAC_RUN_CONF)
 
 reinstall: purge install
 

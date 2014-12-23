@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-// Http Get to fetch file.
+// Retrieve a file via HTTP GET.
 func Fetch(url string, path string) error {
 	response, err := http.Get(url)
 	if err != nil {
@@ -22,10 +22,10 @@ func Fetch(url string, path string) error {
 		return err
 	}
 	if strings.HasPrefix(url, MASTER_URL) {
-		// Downloaded run.conf, etc.
+		// When fetching run.conf, etc.
 		return ioutil.WriteFile(path, body, 0644)
 	} else {
-		// Downloaded scripts.
+		// When fetching scripts.
 		return ioutil.WriteFile(path, body, 0777)
 	}
 }
