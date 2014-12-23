@@ -1,4 +1,4 @@
-package utils
+package flock
 
 import (
 	"os/exec"
