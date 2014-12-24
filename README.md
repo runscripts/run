@@ -18,10 +18,10 @@ It helps to manage and re-use scripts more easily. After installing run, you get
 
   Operating System | Architectures
   ---------------- | -------------
-  Linux            | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/linux_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/linux_amd64/run), [arm](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/linux_arm/run)
-  Mac OS           | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/darwin_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/darwin_amd64/run)
-  FreeBSD          | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/freebsd_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/freebsd_amd64/run)
-  Debian/Ubuntu    | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/deb/run_20141222-0.3.4_386.deb), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/deb/run_20141222-0.3.4_amd64.deb)
+  Linux            | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/linux_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/linux_amd64/run), [arm](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/linux_arm/run)
+  Mac OS           | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/darwin_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/darwin_amd64/run)
+  FreeBSD          | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/freebsd_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/freebsd_amd64/run)
+  Debian/Ubuntu    | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/deb/run_20141224-0.3.6_386.deb), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/deb/run_20141224-0.3.6_amd64.deb)
   
   Download binary in the table according to your OS/Arch and place it in **$PATH** (like /usr/bin/). Then execute `sudo run --init`.
 
