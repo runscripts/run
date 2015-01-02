@@ -35,7 +35,7 @@ The command `run` will download the well-known [pt-summary](http://www.percona.c
   Debian/Ubuntu    | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/deb/run_20141222-0.3.4_386.deb), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/deb/run_20141222-0.3.4_amd64.deb)
 
   Download binary according to your OS/Arch and place it in **$PATH** (like /usr/bin/). Then execute `sudo run --init`.
-
+  
 ## Usage
 
 Watch the [one-minute video](https://www.youtube.com/watch?v=WXUcJvrZP6M) before you're using it.

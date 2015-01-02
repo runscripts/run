@@ -1,7 +1,7 @@
 # Install
 #   sudo GOPATH=$GOPATH make install
 #
-# Packages
+# Release
 #   NOTICE: Backup your run.conf before run the following command
 #   sudo GOPATH=$GOPATH make packages VERSION="X.Y.Z"
 #
@@ -9,9 +9,9 @@
 #   make test
 #   sudo make clean
 #   sudo make purge
-#   sudo GOPATH=$GOPATH make reinstall
+#   sudo GOPATH=$GOPATH make deb VERSION="X.Y.Z"
 
-.PHONY: help test install clean purge reinstall packages deb
+.PHONY: help test install clean purge packages deb
 
 ifeq (`uname`,'Darwin')
 RUN_CONF=/usr/local/etc/run.conf
@@ -58,8 +58,6 @@ clean:
 
 purge: clean
 	rm -f $(RUN_CONF)
-
-reinstall: purge install
 
 packages: deb $(PACKAGES)
 
