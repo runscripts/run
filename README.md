@@ -6,18 +6,20 @@
 
 **Run** is the script manager for developers.
 
-* It helps to manage scripts with git
-* It helps to re-use scripts natually
-* It is highly integrated with Github
-* If you're writing scrips, try it now
+* It helps to manage scripts with git, svn or hg.
+* It helps to re-use all your scripts naturally.
+* It is highly integrated with GitHub and others.
+* If you're writing scrips, please try it now!
 
 ## How It Works
 
 ![](how-it-works.png)
 
-Normally we execute `run pt-summary` or `run github:runscripts/scripts/pt-summary`.
+After installing run, we can execute `run pt-summary` or `run github:runscripts/scripts/pt-summary`.
 
-The command `run` will download the well-known [pt-summary](http://www.percona.com/doc/percona-toolkit/2.1/pt-summary.html) from Github and run locally.
+The command `run` will download the well-known [pt-summary](http://www.percona.com/doc/percona-toolkit/2.1/pt-summary.html) from GitHub and run locally.
+
+You can manage your scripts with `svn`, `git` or `hg` in GitHub, Bitbucket, GitLab or anywhere.
 
 ## Install
 
@@ -31,12 +33,12 @@ The command `run` will download the well-known [pt-summary](http://www.percona.c
 
   Operating System | Architectures
   ---------------- | -------------
-  Linux            | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/linux_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/linux_amd64/run), [arm](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/linux_arm/run)
-  Mac OS           | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/darwin_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/darwin_amd64/run), [homebrew](https://github.com/tobegit3hub/homebrew-run)
-  FreeBSD          | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/freebsd_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/freebsd_amd64/run)
-  Debian/Ubuntu    | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/deb/run_20141222-0.3.4_386.deb), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.4/deb/run_20141222-0.3.4_amd64.deb)
+  Linux            | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/linux_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/linux_amd64/run), [arm](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/linux_arm/run)
+  Mac OS           | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/darwin_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/darwin_amd64/run), [brew](https://github.com/tobegit3hub/homebrew-run)
+  FreeBSD          | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/freebsd_386/run), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/freebsd_amd64/run)
+  Debian/Ubuntu    | [386](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/deb/run_20141224-0.3.6_386.deb), [amd64](https://raw.githubusercontent.com/runscripts/run-release/master/0.3.6/deb/run_20141224-0.3.6_amd64.deb)
 
-  Download binary according to your OS/Arch and place it in **$PATH** (like /usr/bin/). Then execute `sudo run --init`.
+  Download the binary according to your OS and place it in **$PATH** (like /usr/bin/). Then execute `sudo run --init` or `sudo dpkg -i run.deb`.
   
 ## Usage
 
@@ -64,9 +66,8 @@ Report bugs to <https://github.com/runscripts/run/issues>.
 
 ## Scripts
 
-The official scripts are in [runscripts/scripts](https://github.com/runscripts/scripts).
+At beginning, we can try `run pt-summary` and Checkout official scripts in [runscripts/scripts](https://github.com/runscripts/scripts).
 
-> You can easily `run pt-summary` or `run -i python get-pip.py`.
+Now let's manage all the scripts with version control tools and play with the script manager, run.
 
-Feel free to manage your scripts in Github and send pull-request to official scripts.
-
+Feel free to manage your scripts in GitHub and send pull-request to official scripts.
