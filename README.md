@@ -13,6 +13,8 @@
 
 ## How It Works
 
+![](how-it-works.png)
+
 Normally we execute `run pt-summary` or `run github:runscripts/scripts/pt-summary`.
 
 The command `run` will download the well-known [pt-summary](http://www.percona.com/doc/percona-toolkit/2.1/pt-summary.html) from Github and run locally.
