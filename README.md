@@ -66,8 +66,8 @@ Report bugs to <https://github.com/runscripts/run/issues>.
 
 ## Scripts
 
-At beginning, we can try `run pt-summary` and Checkout official scripts in [runscripts/scripts](https://github.com/runscripts/scripts).
+At beginning, we can try `run pt-summary` and checkout official scripts in [runscripts/scripts](https://github.com/runscripts/scripts).
 
-Now let's manage all the scripts with version control tools and play with the script manager, run.
+Now let's manage all the scripts with version control tools and play with this script manager.
 
-Feel free to manage your scripts in GitHub and send pull-request to official scripts.
+Feel free to send pull-request to official scripts and contribute to [runscripts.org](http://runscripts.org/).
