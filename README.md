@@ -1,6 +1,6 @@
 # Run
 
-[![TravisCI status](https://secure.travis-ci.org/runscripts/run.png)](http://travis-ci.org/runscripts/run) [![GoDoc](https://godoc.org/github.com/runscripts/run?status.svg)](https://godoc.org/github.com/runscripts/run) [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/runscripts/runscripts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![TravisCI status](https://secure.travis-ci.org/runscripts/run.png)](http://travis-ci.org/runscripts/run) [![GoDoc](https://godoc.org/github.com/runscripts/run?status.svg)](https://godoc.org/github.com/runscripts/run) [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/runscripts/run?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Introduction
 
