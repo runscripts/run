@@ -13,14 +13,22 @@
 
 .PHONY: help test install clean purge packages deb
 
-ifeq (`uname`,'Darwin')
+OS=$(shell uname)
+
+ifeq ($(OS), Darwin)
 RUN_CONF=/usr/local/etc/run.conf
 else
 RUN_CONF=/etc/run.conf
 endif
 
 RUN_BIN=/usr/bin/run
+
+ifeq ($(OS), Darwin)
+DATA_DIR=/usr/local/var/run
+else
 DATA_DIR=/usr/local/run
+endif
+
 MAN_PAGE=/usr/share/man/man1/run.1.gz
 
 DEB_DIR=packages/deb
