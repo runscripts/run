@@ -12,9 +12,9 @@ import (
 
 // Default configuration settings.
 var CONFIG_PATH = ""
+var DATA_DIR = ""
 
 const (
-	DATA_DIR   = "/usr/local/run"
 	MASTER_URL = "https://raw.githubusercontent.com/runscripts/run/master/"
 )
 
@@ -24,6 +24,14 @@ func SetConfigPath() {
 		CONFIG_PATH = "/usr/local/etc/run.conf"
 	} else {
 		CONFIG_PATH = "/etc/run.conf"
+	}
+}
+
+func SetDataDir() {
+	if runtime.GOOS == "darwin" {
+		DATA_DIR = "/usr/local/var/run"
+	} else {
+		DATA_DIR = "/usr/local/run"
 	}
 }
 

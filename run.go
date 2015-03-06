@@ -74,6 +74,7 @@ func main() {
 	mask := syscall.Umask(0)
 	defer syscall.Umask(mask)
 	utils.SetConfigPath()
+	utils.SetDataDir()
 	initialize()
 
 	// If run is not installed.
