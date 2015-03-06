@@ -21,12 +21,16 @@ else
 RUN_CONF=/etc/run.conf
 endif
 
-RUN_BIN=/usr/bin/run
-
 ifeq ($(OS), Darwin)
 DATA_DIR=/usr/local/var/run
 else
 DATA_DIR=/usr/local/run
+endif
+
+ifeq ($(OS), Darwin)
+RUN_BIN=/usr/local/bin/run
+else
+RUN_BIN=/usr/bin/run
 endif
 
 MAN_PAGE=/usr/share/man/man1/run.1.gz
