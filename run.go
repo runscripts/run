@@ -17,13 +17,13 @@ func help() {
 	run [OPTION] [SCOPE:]SCRIPT
 
 Options:
-	-c, --clean     clean out all scripts cached in local
-	-h, --help      show this help message, then exit
-	-i INTERPRETER  run script with interpreter(e.g., bash, python)
-	-I, --init      create configuration and cache directory
-	-u, --update    force to update the script before run
-	-v, --view      view the content of script, then exit
+	-h, --help      show this help message run, then exit
 	-V, --version   output version information, then exit
+	-v, --view      view the content of script, then exit
+	-u, --update    force to update the script before run
+	-c, --clean     clean out all scripts cached in local
+	-i INTERPRETER  run with interpreter(e.g., bash, python)
+	-I, --init      create configuration and cache directory
 
 Examples:
 	run pt-summary
